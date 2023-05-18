@@ -1,0 +1,102 @@
+<%- include('partials/header'); %>
+  <title>Edit <%= staff['Staff_name'] %></title>
+	<link rel="stylesheet" href="/css/forms.css" />
+	<script src="/js/forms.js" defer></script>
+<%- include('partials/layout'); %>
+<!-- ======= Breadcrumbs Section ======= -->
+<section class="breadcrumbs">
+  <div class="container">
+
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Edit staff</h2>
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/staffs">Staffs</a></li>
+        <li>Edit staff</li>
+      </ol>
+    </div>
+
+  </div>
+</section><!-- End Breadcrumbs Section -->
+<main>
+	<div class="form-container">
+    <form action="/staffs/edit?id=<%= staff['Staff_id'] %>" method="post" class="big">
+			<div>
+				<h2 class="center">Edit Staff</h2>
+			</div>
+      <%- include('partials/alert') %>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="name" placeholder="Staff name" maxlength="40" value="<%= staff['Staff_name'] %>" readonly />
+            <span>Staff name:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="contact" placeholder="Staff contact" maxlength="40" value="<%= staff['Staff_contact'] %>" readonly />
+            <span>Staff contact:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="email" placeholder="Staff email" maxlength="40" value="<%= staff['Staff_email'] %>" readonly />
+            <span>Staff email:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="address" placeholder="Staff address" maxlength="40" value="<%= staff['Staff_address'] %>" readonly />
+            <span>Staff address:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="jobrole" placeholder="Job role" maxlength="40" value="<%= staff['Job_role'] %>" readonly />
+            <span>Job role:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="salary" placeholder="Salary" maxlength="40" value="<%= staff['Salary'] %>" readonly />
+            <span>Salary:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <button class="button">Submit</button>
+        </div>
+      </div>
+		</form>
+	</div>
+</main>
+<%- include('partials/footer') %>

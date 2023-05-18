@@ -1,0 +1,91 @@
+<%- include('partials/header'); %>
+  <title>Edit <%= ret['Retailer_name'] %></title>
+	<link rel="stylesheet" href="/css/forms.css" />
+	<script src="/js/forms.js" defer></script>
+<%- include('partials/layout'); %>
+<!-- ======= Breadcrumbs Section ======= -->
+<section class="breadcrumbs">
+  <div class="container">
+
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Edit profile</h2>
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li>Edit profile</li>
+      </ol>
+    </div>
+
+  </div>
+</section><!-- End Breadcrumbs Section -->
+<main>
+	<div class="form-container">
+    <form action="/profile/edit" method="post">
+			<div>
+				<h2 class="center">Edit Retailer</h2>
+			</div>
+      <%- include('partials/alert') %>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="name" placeholder="Retailer name" maxlength="40" value="<%= ret['Retailer_name'] %>" readonly />
+            <span>Retailer name:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="contact" placeholder="Retailer contact" maxlength="40" value="<%= ret['Retailer_contact'] %>" readonly />
+            <span>Retailer contact:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="email" placeholder="Retailer email" maxlength="40" value="<%= ret['Retailer_email'] %>" readonly />
+            <span>Retailer email:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="address" placeholder="Retailer address" maxlength="40" value="<%= ret['Retailer_address'] %>" readonly />
+            <span>Retailer address:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <button class="button">Submit</button>
+        </div>
+      </div>
+      <div>
+        <div class="row">
+          <a class="button small col-md-5 col-7" href="/auth/change">Change password</a>
+          <a class="button small col-md-5 col-7" href="/auth/hint">Hint question</a>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <a class="button small danger" href="/auth/delete">Delete account</a>
+        </div>
+      </div>
+		</form>
+	</div>
+</main>
+<%- include('partials/footer') %>

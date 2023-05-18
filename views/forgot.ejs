@@ -1,0 +1,69 @@
+<%- include('partials/header'); %>
+<title>Forgot password</title>
+<link rel="stylesheet" href="/css/forms.css" />
+<script src="/js/forms.js" defer></script>
+<script src="/js/login.js" defer></script>
+<%- include('partials/layout'); %>
+<!-- ======= Breadcrumbs Section ======= -->
+<section class="breadcrumbs">
+  <div class="container">
+
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Forgot password</h2>
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li>Accounts</li>
+        <li>Forgot password</li>
+      </ol>
+    </div>
+
+  </div>
+</section><!-- End Breadcrumbs Section -->
+<main>
+  <div class="form-container">
+    <form action="/auth/forgot" method="post">
+      <input type="hidden" name="rid" value="<%= rid %>" />
+      <div>
+        <h2 class="center">Forgot password</h2>
+      </div>
+      <%- include('partials/alert') %>
+      <div>
+        <div class="field">
+          <label>
+            <textarea name="hintq" placeholder="Hint question" readonly><%= hintq %></textarea>
+            <span>Hint question:</span>
+          </label>
+          <p><span class="error"></span><span class="counter"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <textarea name="answer" placeholder="Answer" maxlength="50"></textarea>
+            <span>Answer:</span>
+          </label>
+          <p><span class="error"></span><span class="counter"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <i class="eye suffix password"></i>
+            <input type="password" name="password" placeholder="New password" maxlength="32" value="" />
+            <span>New password:</span>
+          </label>
+          <p><span class="error"></span><span class="counter"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <button class="button">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>
+<%- include('partials/footer'); %>

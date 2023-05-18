@@ -1,0 +1,40 @@
+<%- include('partials/header'); %>
+<title>Error (<%= locals.code ?? 500 %>) <%= locals.desc ?? 'Internal server error' %></title>
+<%- include('partials/layout'); %>
+<!-- ======= Breadcrumbs Section ======= -->
+<section class="breadcrumbs">
+  <div class="container">
+
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Internal Server Error</h2>
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li>?</li>
+      </ol>
+    </div>
+
+  </div>
+</section><!-- End Breadcrumbs Section -->
+<main>
+  <h2 class="center"><%= desc %></h2>
+  <div class="container center">
+    <img src="/assets/img/500.svg" alt="" width="720" class="img-fluid">
+  </div>
+  <p></p>
+  <div class="container center">
+      <p class="url"><a href="#!"><%= url %></a></p>
+      <p class="lead"><strong>Error code: </strong><%= code; %></p>
+      <p><strong>Description: </strong><%= desc; %></p>
+      <p><a href="/" class="btn btn-dark d-inline-flex align-items-center justify-content-evenly">
+        <i class="bi bi-arrow-left p-1"></i>Back to homepage
+      </a></p>
+  </div>
+  <p></p>
+  <% if (locals.stack) { %>
+    <div class="stack">
+      <p>Stack trace:</p>
+      <pre><%= stack %></pre>
+    </div>
+  <% } %>
+</main>
+<%- include('partials/footer'); %>

@@ -1,0 +1,80 @@
+<%- include('partials/header'); %>
+  <title>Edit <%= sup['Supplier_name'] %></title>
+	<link rel="stylesheet" href="/css/forms.css" />
+	<script src="/js/forms.js" defer></script>
+<%- include('partials/layout'); %>
+<!-- ======= Breadcrumbs Section ======= -->
+<section class="breadcrumbs">
+  <div class="container">
+
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Edit supplier</h2>
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/suppliers">Suppliers</a></li>
+        <li>Edit supplier</li>
+      </ol>
+    </div>
+
+  </div>
+</section><!-- End Breadcrumbs Section -->
+<main>
+	<div class="form-container">
+    <form action="/suppliers/edit?id=<%= sup['Supplier_id'] %>" method="post">
+			<div>
+				<h2 class="center">Edit Supplier</h2>
+			</div>
+      <%- include('partials/alert') %>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="name" placeholder="Supplier name" maxlength="40" value="<%= sup['Supplier_name'] %>" readonly />
+            <span>Supplier name:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="contact" placeholder="Supplier contact" maxlength="40" value="<%= sup['Supplier_contact'] %>" readonly />
+            <span>Supplier contact:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="email" placeholder="Supplier email" maxlength="40" value="<%= sup['Supplier_email'] %>" readonly />
+            <span>Supplier email:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="address" placeholder="Supplier address" maxlength="40" value="<%= sup['Supplier_address'] %>" readonly />
+            <span>Supplier address:</span>
+            <i class="suffix-btn edit"></i>
+          </label>
+          <p><span class="error"></span><span class="counter hidden"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <button class="button">Submit</button>
+        </div>
+      </div>
+		</form>
+	</div>
+</main>
+<%- include('partials/footer') %>

@@ -1,0 +1,109 @@
+<%- include('partials/header'); %>
+  <title>Sign up</title>
+  <link rel="stylesheet" href="/css/forms.css" />
+  <script src="/js/forms.js" defer></script>
+  <script src="/js/login.js" defer></script>
+  <script src="/js/validators/util.js" defer></script>
+<%- include('partials/layout'); %>
+<!-- ======= Breadcrumbs Section ======= -->
+<section class="breadcrumbs">
+  <div class="container">
+
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Register</h2>
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li>Accounts</li>
+        <li>Sign up</li>
+      </ol>
+    </div>
+
+  </div>
+</section><!-- End Breadcrumbs Section -->
+<main>
+  <div class="form-container">
+    <form action="/auth/register" method="post" class="big">
+      <div>
+        <h2 class="center">Sign up</h2>
+      </div>
+      <%- include('partials/alert') %>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="name" placeholder="Username" maxlength="25" <% if (locals.name) { %> value="<%= name %>" <% } %> />
+            <span>Username:</span>
+          </label>
+          <p><span class="error"></span><span class="counter"></span></p>
+          <p><span class="hint">should start with a letter <br />allowed: letters, numbers, space or hyphen(-) or underscore(_). Max 25 characters</span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="password" name="password" placeholder="Password" maxlength="32" value="" />
+            <span>Password:</span>
+            <i class="eye suffix password"></i>
+          </label>
+          <p><span class="error"></span><span class="counter"></span></p>
+          <p><span class="hint">at least 8 characters long and atmost 32 characters.</span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <textarea name="hintq" placeholder="Hint question" maxlength="40"><%= locals.hintq ?? '' %></textarea>
+            <span>Hint question:</span>
+          </label>
+          <p><span class="error"></span> <span class="counter"></span> </p>
+          <p><span class="hint">at most 40 characters long</span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <textarea name="answer" placeholder="Answer to hint question" maxlength="25"><%= locals.answer ?? '' %></textarea>
+            <span>Answer:</span>
+          </label>
+          <p><span class="error"></span> <span class="counter"></span> </p>
+          <p><span class="hint">at most 25 characters long</span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="text" name="contact" placeholder="Contact number" maxlength="10" <% if (locals.contact) { %> value="<%= contact %>" <% } %> />
+            <span>Contact:</span>
+          </label>
+          <p><span class="error"></span> <span class="counter"></span></p>
+          <p><span class="hint">exactly 10 digit contact number</span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <input type="email" name="email" placeholder="Email address" maxlength="40" <% if (locals.email) { %> value="<%= email %>" <% } %> />
+            <span>Email:</span>
+          </label>
+          <p><span class="error"></span> <span class="counter"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>
+            <textarea name="address" placeholder="Address" maxlength="75"><%= locals.address ?? '' %></textarea>
+            <span>Address:</span>
+          </label>
+          <p><span class="error"></span> <span class="counter"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <button class="button">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>
+<%- include('partials/footer'); %>
