@@ -54,6 +54,22 @@
           <p><span class="error"></span></p>
           <p><span class="hint"></span></p>
         </div>
+        <div class="field">
+          <label>
+            <input type="number" name="batch_no" placeholder="batch_no" <% if(locals.stock){ %> value="<%= stock %>" <% } %> />
+            <span>batch_no:</span>
+          </label>
+          <p><span class="error"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
+        <div class="field">
+          <label>
+            <input type="date" name="expiry_date" placeholder="expiry_date" <% if(locals.stock){ %> value="<%= stock %>" <% } %> />
+            <span>expiry_date:</span>
+          </label>
+          <p><span class="error"></span></p>
+          <p><span class="hint"></span></p>
+        </div>
       </div>
       <div>
         <div class="field">

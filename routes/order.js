@@ -3,7 +3,21 @@ import { checkLogin } from '../middlewares/auth.js';
 import Order from '../models/order.model.js';
 import Supplier from '../models/supplier.model.js';
 import validator from '../middlewares/validators/order.js';
+import db from '../models/db.js';
+import nodemailer from 'nodemailer';
 const router = Router();
+
+
+// Create a new transporter object.
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: false,
+  auth: {
+    user: 'hnarayana788@gmail.com',
+    password: '..,,??np',
+  },
+});
 
 router.get(
   '/orders/',
@@ -90,6 +104,38 @@ router.post('/orders/add', checkLogin, validator, async (req, res) => {
     'Order_date': req.body.ordate,
   };
   await Order.add(order);
+  const sql = 'SELECT Retailer_email FROM Retailers WHERE Retailer_id = ?';
+  try {
+    const [[row]] = await db.query(sql, [req.user.rid]);
+    console.log(row);
+    const mailOptions = {
+      from: row.Retailer_email,
+      to: 'hnarayana788@gmail.com',
+      subject: 'Orders',
+      text: `
+      Dear Supplier,
+    
+      Please find attached the list of orders that we would like to place.
+    
+      Thank you,
+    
+      ${req.body.supplier}
+      `,
+    };
+    
+    // Send the email.
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(info);
+      }
+    });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+  
+  
   res.redirect('/orders');
 });
 
@@ -114,5 +160,16 @@ router.post('/orders/cancel', checkLogin, async (req, res, next) => {
     next();
   }
 });
+
+
+
+
+
+
+
+
+
+
+
 
 export default router;

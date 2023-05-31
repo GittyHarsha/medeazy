@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS Retailers ( Retailer_id varchar(10) PRIMARY KEY, Reta
 
 CREATE TABLE IF NOT EXISTS User_Accounts ( User_id int PRIMARY KEY AUTO_INCREMENT NOT NULL, Password_hash binary(60), Hint_question varchar(50), Answer varchar(30), Retailer_id varchar(10), FOREIGN KEY (Retailer_id) REFERENCES Retailers(Retailer_id) ON DELETE CASCADE ON UPDATE CASCADE );
 
-CREATE TABLE IF NOT EXISTS Inventory ( Retailer_id varchar(10), Medicine_name varchar(50), MRP int, Stock int, PRIMARY KEY (Retailer_id, Medicine_name), FOREIGN KEY (Retailer_id) REFERENCES Retailers(Retailer_id) ON DELETE CASCADE ON UPDATE CASCADE );
+CREATE TABLE IF NOT EXISTS Inventory ( Retailer_id varchar(10), Medicine_name varchar(50), MRP int, Stock int, batch_no int, expiry_date date, PRIMARY KEY (Retailer_id, Medicine_name), FOREIGN KEY (Retailer_id) REFERENCES Retailers(Retailer_id) ON DELETE CASCADE ON UPDATE CASCADE );
 
 CREATE TABLE IF NOT EXISTS Suppliers ( Retailer_id varchar(10), Supplier_id varchar(10), Supplier_name varchar(30), Supplier_contact varchar(10), Supplier_email varchar(50), Supplier_address varchar(80), PRIMARY KEY (Retailer_id, Supplier_id), FOREIGN KEY (Retailer_id) REFERENCES Retailers(Retailer_id) ON DELETE CASCADE ON UPDATE CASCADE );
 

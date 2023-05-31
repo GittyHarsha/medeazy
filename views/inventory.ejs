@@ -1,6 +1,27 @@
 <%- include('partials/header'); %>
 <title>Inventory</title>
+<style>
+table {
+  border: 1px solid black;
+  padding: 5px;
+  column-gap: 10px;
+  border-collapse: collapse;
+  background-color: #fff;
+  color: #333;
+  font-family: Arial, sans-serif;
+  text-align: left;
+}
+
+table td{
+  padding: 20px;
+}
+table th{
+  padding: 20px;
+}
+</style> 
+
 <%- include('partials/layout'); %>
+
 <!-- ======= Breadcrumbs Section ======= -->
 <section class="breadcrumbs">
   <div class="container">
@@ -36,6 +57,39 @@
         <% } %>
       <% } %>
     </div>
+    <div>
+      <table id="expire_table">
+        <thead>
+          <tr>
+            <th>Medicine Name</th>
+            <th>Batch No.</th>
+            <th>Expiry Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <% for (let i = 0; i < medicines.length; i++) { const med = medicines[i]; %>
+          <%var curr_date = new Date(); var exp_date = new Date(med['expiry_date']); %>
+
+          <tr>
+          <td><%= med['Medicine_name'] %></td>
+          <td><%= med['batch_no'] %></td>
+          <td><%= med['expiry_date'].toDateString() %></td> 
+          <% if(exp_date > curr_date && (exp_date - curr_date)/((2.68*(1000000000))) <=1  && exp_date -curr_date > 0) {%>
+          <td style="background-color: rgb(212, 212, 76);">about to expire</td> 
+   
+          <% } else if(exp_date <= curr_date) {%>
+            <td style="background-color: rgb(198, 68, 68);">expired</td> 
+
+          <% } else {%>
+            <td style="background-color: rgb(99, 206, 99);">available</td> 
+            <% } %>
+      
+            </tr>
+       
+      <% } %>
+      </table>
+    
+    </div> 
     <div class="accordion" id="meds">
       <% for (let i = 0; i < medicines.length; i++) { const med = medicines[i]; %>
         <div class="accordion-item">
@@ -48,6 +102,8 @@
                 <li><span>Name: </span><span><%= med['Medicine_name'] %></span></li>
                 <li><span>MRP: </span><span><%= med['MRP'] %></span></li>
                 <li><span>Stock: </span><span><%= med['Stock'] %></span></li>
+                <li><span>Batch No: </span><span><%= med['batch_no'] %></span></li>
+                <li><span>Expiry Date: </span><span><%= med['expiry_date'].toDateString() %></span></li>
               </ul>
               <p class="row">
                 <a href="/inventory/edit?name=<%= encodeURI(med['Medicine_name']) %>" class="button small col-md-5 col-7">Edit</a>

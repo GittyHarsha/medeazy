@@ -61,7 +61,13 @@ const add = async supplier => {
   ];
   try {
     const rows = await findAll(supplier['Retailer_id']);
-    const maxm = Math.max(...rows.map(row => row['Supplier_id']));
+    let maxm=0;
+    if(rows.length==0) {
+      maxm=0;
+    }
+    else {
+      maxm=Math.max(...rows.map(row => row['Staff_id']));
+    }
     supplier['Supplier_id'] = maxm + 1;
     await db.query(sql, [[fields.map(col => supplier[col])]]);
   } catch (error) {

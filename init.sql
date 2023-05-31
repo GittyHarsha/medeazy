@@ -26,6 +26,8 @@ CREATE TABLE IF NOT EXISTS Inventory (
 	Medicine_name varchar(50),
 	MRP int,
 	Stock int,
+	batch_no int,
+	expiry_date date,
 	PRIMARY KEY (Retailer_id, Medicine_name),
 	FOREIGN KEY (Retailer_id)
 		REFERENCES Retailers(Retailer_id)
@@ -109,7 +111,7 @@ INSERT INTO Suppliers VALUES
 ("103", "2", "Praveen", "9871989942", "praveen@shop.com", "praveen address");
 
 INSERT INTO Inventory VALUES
-("101","Paracetemol",100,5);
+("101","Paracetemol",100,5, 1, '2023-12-12');
 
 INSERT INTO Orders VALUES
 ("102", NULL, "dolo 640", 43, 25, "2022/02/25", "1", "PENDING");

@@ -5,6 +5,8 @@ Retailer_id: string
 Medicine_name: string
 MRP: float
 Stock: number
+batch_no: number
+expiry_date: date
 */
 
 const findAll = async rid => {
@@ -50,7 +52,7 @@ const del = async (rid, name) => {
 
 const add = async med => {
   const sql = 'INSERT INTO Inventory VALUES ?';
-  const fields = ['Retailer_id', 'Medicine_name', 'MRP', 'Stock'];
+  const fields = ['Retailer_id', 'Medicine_name', 'MRP', 'Stock', 'batch_no', 'expiry_date'];
   try {
     await db.query(sql, [[fields.map(col => med[col])]]);
   } catch (error) {
