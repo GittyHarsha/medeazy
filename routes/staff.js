@@ -81,6 +81,7 @@ router.post('/staffs/add', checkLogin, validator, async (req, res) => {
     'Salary': req.body.salary
   };
   await Staff.add(staff);
+  console.log(staff);
   res.redirect('/staffs');
 });
 
