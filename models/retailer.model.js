@@ -72,6 +72,7 @@ const add = async ret => {
     else {
       maxm=Math.max(...rows.map(row => row['Retailer_id']));
     }
+    ret['Retailer_id']=maxm+1;
     await db.query(sql, [[fields.map(col => ret[col])]]);
     return ret['Retailer_id'];
   } catch (error) {
