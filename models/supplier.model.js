@@ -1,7 +1,6 @@
 import db from './db.js';
 
 /* Schema
-Retailer_id : string
 Supplier_id : string
 Supplier_name : string
 Supplier_contact : string
@@ -9,41 +8,42 @@ Supplier_email : string
 Supplier_address : string
 */
 
-const findAll = async rid => {
-  const sql = 'SELECT * FROM Suppliers WHERE Retailer_id = ?';
+// dont use this function
+const findAll = async id => {
+  const sql = 'SELECT * FROM Suppliers';
   try {
-    const [rows] = await db.query(sql, [rid]);
+    const [rows] = await db.query(sql);
     return rows;
   } catch (error) {
     return Promise.reject(error);
   }
 };
-const find = async (rid, id) => {
+const find = async (id) => {
   const sql =
-  'SELECT * FROM Suppliers WHERE Retailer_id = ? AND Supplier_id = ?';
+  'SELECT * FROM Suppliers WHERE Supplier_id = ?';
   try {
-    const [[row]] = await db.query(sql, [rid, id]);
+    const [[row]] = await db.query(sql, id);
     return row;
   } catch (error) {
     return Promise.reject(error);
   }
 };
 
-const save = async (rid, id, supplier) => {
+const save = async (id) => {
   const sql =
-  'UPDATE Suppliers SET ? WHERE Retailer_id = ? AND Supplier_id = ?';
+  'UPDATE Suppliers SET ? WHERE Supplier_id = ?';
   try {
-    await db.query(sql, [supplier, rid, id]);
+    await db.query(sql, [supplier, id]);
   } catch (error) {
     return Promise.reject(error);
   }
 };
 
-const del = async (rid, id) => {
+const del = async (id) => {
   const sql =
-  'DELETE FROM Suppliers WHERE Retailer_id = ? AND Supplier_id = ?';
+  'DELETE FROM Suppliers WHERE Supplier_id = ?';
   try {
-    await db.query(sql, [rid, id]);
+    await db.query(sql, id);
   } catch (error) {
     return Promise.reject(error);
   }
@@ -52,7 +52,6 @@ const del = async (rid, id) => {
 const add = async supplier => {
   const sql = 'INSERT INTO Suppliers VALUES ?';
   const fields = [
-    'Retailer_id',
     'Supplier_id',
     'Supplier_name',
     'Supplier_contact',
@@ -60,16 +59,12 @@ const add = async supplier => {
     'Supplier_address'
   ];
   try {
-    const rows = await findAll(supplier['Retailer_id']);
-    let maxm=0;
-    if(rows.length==0) {
-      maxm=0;
-    }
-    else {
-      maxm=Math.max(...rows.map(row => row['Staff_id']));
-    }
-    supplier['Supplier_id'] = maxm + 1;
+    const rows = await findAll(supplier['Supplier_id']);
+    
+    supplier['Supplier_id'] = rows.length + 1;
     await db.query(sql, [[fields.map(col => supplier[col])]]);
+    console.log(`supplier with id ${supplier['Supplier_id']} added successfully`);
+    return supplier['Supplier_id'];
   } catch (error) {
     return Promise.reject(error);
   }

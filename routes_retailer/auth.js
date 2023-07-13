@@ -24,6 +24,13 @@ router.get('/auth/', (req, res) => {
   res.redirect('/auth/login');
 });
 
+router.get('/supplier/auth/login', (req, res)=>{
+  res.render('login.ejs', {customer_type: 'supplier'});
+});
+router.get('/retailer/auth/login', (req, res)=>{
+  res.render('login.ejs', {customer_type: 'retailer'});
+});
+
 router.get('/auth/login', (req, res) => {
   if (req.isAuthenticated()) {
     const [url] = req.flash('redirect');
@@ -40,6 +47,13 @@ router.get('/auth/login', (req, res) => {
   res.render('login.ejs');
 });
 
+router.get("/supplier/auth/register", (req, res)=> {
+  res.render('register.ejs', {customer_type: 'supplier'});
+});
+
+router.get("/retailer/auth/register", (req, res)=> {
+  res.render('register.ejs', {customer_type: 'retailer'});
+});
 router.get('/auth/register', (req, res) => {
   if (req.isAuthenticated()) {
     res.redirect('/dashboard');

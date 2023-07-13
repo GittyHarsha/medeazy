@@ -3,7 +3,8 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import flash from 'connect-flash';
 import passport from './middlewares/passport.js';
-import router from './routes/index.js';
+import router_retailer from './routes_retailer/index.js';
+import router_supplier from './routes_supplier/index.js';
 import { PORT, SECRET } from './config.js';
 
 const app = express();
@@ -38,9 +39,16 @@ app.use((req, res, next) => {
 app.all('/', (req, res) => {
   res.render('index');
 });
-app.use('/', router);
-
+app.all('/supplier', (req, res)=>{
+  res.render('suppliers_index');
+});
+app.all('/retailer', (req, res)=>{
+  res.render('retailers_index');
+});
+app.use('/retailer', router_retailer);
+app.use('/supplier', router_supplier);
 // url not found
+
 app.use((req, res) => {
   res.status(404);
   res.format({

@@ -45,243 +45,19 @@
 </div>
 
   <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top">
-    <div class="container d-flex align-items-center">
-
-      <h1 class="logo me-auto"><a href="index.html">MedEazy</a></h1>
-
-      <nav id="navbar" class="navbar order-last order-lg-0">
-        <ul>
-          <li><a class="nav-link" href="/">Home</a></li>
-          <% if (locals.user) { %>
-            <li><a href="/dashboard">Dashboard</a></li>
-          <% } else { %>
-            <li><a href="/auth/login">Login</a></li>
-            <li><a href="/auth/register">Signup</a></li>
-          <% } %>
-          <li><a class="nav-link" href="/all">Shops</a></li>
-          <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link" href="#contact">Contact</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-        <div class="dropdown user">
-          <button class="user-icon" type="button"><i class="bi bi-person-fill"></i></button>
-          <ul>
-            <% if (locals.user) { %>
-              <h6 class="center"><%= user.name.split(' ')[0].replace(/./, char => char.toUpperCase()) %></h6>
-              <li><a href="/dashboard">Dashboard</a></li>
-              <li><a href="/profile">My Profile</a></li>
-              <li><a href="/auth/logout">Logout</a></li>
-            <% } else { %>
-              <li><a href="/auth/login">Login</a></li>
-              <li><a href="/auth/register">Sign up</a></li>
-            <% } %>
-          </ul>
-        </div>
-      </nav><!-- .navbar -->
-
-    </div>
-  </header><!-- End Header -->
+  
 
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
     <div class="container">
       <h1>Welcome to MedEazy</h1>
       <h2>Centralized medical store Management</h2>
-      <a href="#services" class="btn-get-started scrollto">Get Started</a>
+     <form action="./Supplier"><button>Supplier</button> </form>
+     <form action="./Retailer"><button>Retailer</button> </form>
     </div>
   </section><!-- End Hero -->
 
-  <main id="main">
-
-    <!-- ======= Why Us Section ======= -->
-    <section id="why-us" class="why-us">
-      <div class="container">
-
-        <div class="row">
-          <div class="col-lg-4 d-flex align-items-stretch">
-            <div class="content">
-              <h3>Why Choose MedEazy?</h3>
-              <p>
-                MedEazy can register to the website and can store the information such as medicine stock, earning, staff information and supplier details of a medical store.
-                With this system, retailer can keep a track of their sales and can efficiently order medicines on the basis of sale of specific medicine.
-                This also allows retailer to keep a record of current stock of each medicine.
-              </p>
-              <div class="text-center">
-                <a href="#testimonials" class="more-btn">Learn More <i class="bx bx-chevron-right"></i></a>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-8 d-flex align-items-stretch">
-            <div class="icon-boxes d-flex flex-column justify-content-center">
-              <div class="row">
-                <div class="col-xl-4 d-flex align-items-stretch">
-                  <div class="icon-box mt-4 mt-xl-0">
-                    <i class="bx bx-receipt"></i>
-                    <h4>Staffs and suppliers</h4>
-                    <p>Manage staffs, suppliers and their details. Add, remove or update staff and supplier details</p>
-                  </div>
-                </div>
-                <div class="col-xl-4 d-flex align-items-stretch">
-                  <div class="icon-box mt-4 mt-xl-0">
-                    <i class="bx bx-cube-alt"></i>
-                    <h4>Stock and inventory</h4>
-                    <p>Manage medicines stock and sales. Add, update or remove medicines from the application</p>
-                  </div>
-                </div>
-                <div class="col-xl-4 d-flex align-items-stretch">
-                  <div class="icon-box mt-4 mt-xl-0">
-                    <i class="bx bx-images"></i>
-                    <h4>Orders</h4>
-                    <p>Place or cancel orders for medicine. In case of order completion, inventory is automatically updated</p>
-                  </div>
-                </div>
-              </div>
-            </div><!-- End .content-->
-          </div>
-        </div>
-
-      </div>
-    </section><!-- End Why Us Section -->
-
-    <!-- ======= Services Section ======= -->
-    <section id="services" class="services">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Services</h2>
-          <p>Manage all these services at ease under a single platform.</p>
-        </div>
-
-        <div class="row">
-          <div class="col-md-6 d-flex align-items-stretch">
-            <div class="icon-box">
-              <div class="icon"><i class="fas fa-heartbeat"></i></div>
-              <h4><a href="/staffs">Staffs</a></h4>
-              <p class="fs-6">Manage staffs, staff details and salaries or add new staff. Update existing staff details or upgrade all salaries as a bonus</p>
-            </div>
-          </div>
-
-          <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
-            <div class="icon-box">
-              <div class="icon"><i class="fas fa-pills"></i></div>
-              <h4><a href="/suppliers">Suppliers</a></h4>
-              <p class="fs-6">Manage suppliers and their details or add new suppliers. Update existing suppliers. These suppliers are used for placing orders</p>
-            </div>
-          </div>
-
-          <div class="col-md-6 d-flex align-items-stretch mt-4">
-            <div class="icon-box">
-              <div class="icon"><i class="fas fa-hospital-user"></i></div>
-              <h4><a href="/inventory">Inventory</a></h4>
-              <p class="fs-6">Manage medicines stock and sales. Add, update or remove medicines from the application</p>
-            </div>
-          </div>
-
-          <div class="col-md-6 d-flex align-items-stretch mt-4">
-            <div class="icon-box">
-              <div class="icon"><i class="fas fa-dna"></i></div>
-              <h4><a href="/orders">Orders</a></h4>
-              <p class="fs-6">Place or cancel orders for medicine. In case of order completion, inventory is automatically updated</p>
-            </div>
-          </div>
-      </div>
-    </section><!-- End Services Section -->
-
-    <!-- ======= Testimonials Section ======= -->
-    <section id="testimonials" class="testimonials">
-      <div class="container">
-
-        <div class="testimonials-slider swiper swiper-initialized swiper-horizontal swiper-pointer-events box glowing" data-aos="fade-up" data-aos-delay="100">
-          <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(-3290px, 0px, 0px);" id="swiper-wrapper-ef1c627aae69f9fa" aria-live="off"><div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-prev" data-swiper-slide-index="2" style="width: 638px; margin-right: 20px;" role="group" aria-label="3 / 4">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <h3>Inventory</h3>
-                  <p>
-                    Manage medicines stock and sales. Add, update or remove medicines from the application
-                  </p>
-                </div>
-              </div>
-            </div><div class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active box glowing " data-swiper-slide-index="3" style="width: 638px; margin-right: 20px;" role="group" aria-label="4 / 4">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <h3>Orders</h3>
-                  <p>
-                    Place or cancel orders for medicine. In case of order completion, inventory is automatically updated
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide swiper-slide-duplicate-next box glowing" data-swiper-slide-index="0" style="width: 638px; margin-right: 20px;" role="group" aria-label="1 / 4">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <h3>Staffs</h3>
-                  <p>
-                    Manage staffs, staff details and salaries or add new staff
-                  </p>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide box glowing" data-swiper-slide-index="1" style="width: 638px; margin-right: 20px;" role="group" aria-label="2 / 4">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <h3>Suppliers</h3>
-                  <p>
-                    Manage suppliers and their details. Add, remove or update supplier details
-                  </p>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide swiper-slide-prev box glowing" data-swiper-slide-index="2" style="width: 638px; margin-right: 20px;" role="group" aria-label="3 / 4">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <h3>Inventory</h3>
-                  <p>
-                    Manage medicines stock and sales. Add, update or remove medicines from the application
-                  </p>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide swiper-slide-active box glowing " data-swiper-slide-index="3" style="width: 638px; margin-right: 20px;" role="group" aria-label="4 / 4">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <h3>Orders</h3>
-                  <p>
-                    Place or cancel orders for medicine. In case of order completion, inventory is automatically updated
-                  </p>
-                </div>
-              </div>
-            </div><!-- End testimonial item -->
-          <div class="swiper-slide swiper-slide-duplicate swiper-slide-next box glowing " data-swiper-slide-index="0" style="width: 638px; margin-right: 20px;" role="group" aria-label="1 / 4">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <h3>Staffs</h3>
-                  <p>
-                    Manage staffs, staff details and salaries or add new staff
-                  </p>
-                </div>
-              </div>
-            </div><div class="swiper-slide swiper-slide-duplicate box glowing" data-swiper-slide-index="1" style="width: 638px; margin-right: 20px;" role="group" aria-label="2 / 4">
-              <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                  <h3>Suppliers</h3>
-                  <p>
-                    Manage suppliers and their details. Add, remove or update supplier details
-                  </p>
-                </div>
-              </div>
-            </div></div>
-          <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal"><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 1"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 3"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 4" aria-current="true"></span></div>
-        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
-
-      </div>
-    </section><!-- End Testimonials Section -->
-
-  </main><!-- End #main -->
+  
 
   <!-- ======= Footer ======= -->
   <footer id="footer">
@@ -349,6 +125,12 @@
   <script src="/assets/js/main.js"></script>
   <script src="/js/script.js"></script>
 
+<script>
+    
+</script>
+
+
   </body>
+
 
   </html>

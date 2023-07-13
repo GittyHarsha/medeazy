@@ -1,7 +1,7 @@
 import { checkLogin } from '../middlewares/auth.js';
 import User from '../models/user.model.js';
 import Retailer from '../models/retailer.model.js';
-
+import Supplier from '../models/supplier.model.js';
 const forgotControllerPOST = async (req, res) => {
   const { rid } = req.body;
   const { answer } = req.body;
@@ -64,8 +64,45 @@ const changePasswordPOST = async (req, res, next) => {
   req.flash('success', 'Password changed successfully');
   res.redirect('/profile/edit');
 };
+/* 
+CREATE TABLE IF NOT EXISTS Retailers (
+	Retailer_id varchar(10) PRIMARY KEY,
+	Retailer_name varchar(30),
+	Retailer_contact varchar(10),
+	Retailer_email varchar(50),
+	Retailer_address varchar(80)
+);
+CREATE TABLE IF NOT EXISTS Suppliers (
+	Supplier_id varchar(10) PRIMARY KEY,
+	Supplier_name varchar(30),
+	Supplier_contact varchar(10),
+	Supplier_email varchar(50),
+	Supplier_address varchar(80)
+);
 
+// added supplier column
+
+CREATE TABLE IF NOT EXISTS User_Accounts (
+	User_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	Password_hash binary(60),
+	Hint_question varchar(50),
+	Answer varchar(30),
+	Retailer_id varchar(10),
+	Supplier_id varchar(10),
+	FOREIGN KEY (Retailer_id)
+	REFERENCES Retailers(Retailer_id)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+	
+	FOREIGN KEY (Supplier_id)
+	REFERENCES Suppliers(Supplier_id)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);*/
 const registerController = async (req, res) => {
+  console.log(req.body);
+
+  if(req.body.customer_type=="retailer") {
   const ret = {
     'Retailer_name': req.body.name,
     'Retailer_contact': req.body.contact,
@@ -79,9 +116,31 @@ const registerController = async (req, res) => {
     'Answer': req.body.answer,
     'Retailer_id': rid
   };
-  await User.add(user);
+  
+  await User.add(user, 'retailer');
   req.flash('success', 'Registered successfully. Please login to continue');
-  res.redirect('/auth/login');
+  res.redirect('/retailer/auth/login');
+  }
+  else if(req.body.customer_type=="supplier") {
+    const sup = {
+      'Supplier_name': req.body.name,
+      'Supplier_contact': req.body.contact,
+      'Supplier_email': req.body.email,
+      'Supplier_address': req.body.address
+    };
+    const id = await Supplier.add(sup);
+    const user = {
+      'password': req.body.password,
+      'Hint_question': req.body.hintq,
+      'Answer': req.body.answer,
+      'Supplier_id': id
+    };
+
+    await User.add(user, 'supplier');
+    req.flash('success', 'Registered successfully. Please login to continue');
+    res.redirect('/supplier/auth/login');
+    }
+  
 };
 
 const hintControllerPOST = async (req, res) => {
