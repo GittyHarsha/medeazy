@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import auth from './auth.js';
-import protectd_m from './protected.js';
+import Protected from './protected.js';
 import profile from './profile.js';
 import staff from './staff.js';
 import supplier from './supplier.js';
@@ -15,14 +15,14 @@ router.use((req, res, next) => {
   }
   next();
 });
-router.use("/retailer", auth);
-router.use("/retailer", protected_m);
-router.use("/retailer", profile);
-router.use("/retailer", staff);
-router.use("/retailer", supplier);
-router.use("/retailer", inventory);
-router.use("/retailer", order);
-router.use("/retailer", retailer);
+router.use(auth);
+router.use(Protected);
+router.use(profile);
+router.use(staff);
+router.use(supplier);
+router.use(inventory);
+router.use(order);
+router.use(retailer);
 router.get('/500', (req, res, next) => {
   next({ code: 500, desc: 'Internal server error' });
 });

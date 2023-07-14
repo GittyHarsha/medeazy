@@ -45,8 +45,20 @@ app.all('/supplier', (req, res)=>{
 app.all('/retailer', (req, res)=>{
   res.render('retailers_index');
 });
-app.use('/retailer', router_retailer);
-app.use('/supplier', router_supplier);
+
+function put_type(req, res, next) {
+var url=req.url;
+if(url.includes("supplier")) {
+  req.body.customer_type='supplier';
+}
+else {
+  req.body.customer_type='retailer';
+}
+next();
+}
+
+app.use('/retailer', put_type, router_retailer);
+app.use('/supplier', put_type, router_supplier);
 // url not found
 
 app.use((req, res) => {
@@ -98,3 +110,4 @@ process.on('SIGTERM', () => {
     console.log('HTTP server closed');
   });
 });
+

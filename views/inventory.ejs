@@ -29,7 +29,7 @@ table th{
     <div class="d-flex justify-content-between align-items-center">
       <h2>Inventory</h2>
       <ol>
-        <li><a href="/">Home</a></li>
+        <li><a href="/retailer">Home</a></li>
         <li>Inventory</li>
       </ol>
     </div>
@@ -106,8 +106,8 @@ table th{
                 <li><span>Expiry Date: </span><span><%= med['expiry_date'].toDateString() %></span></li>
               </ul>
               <p class="row">
-                <a href="/inventory/edit?name=<%= encodeURI(med['Medicine_name']) %>" class="button small col-md-5 col-7">Edit</a>
-                <a href="/inventory/delete?name=<%= encodeURI(med['Medicine_name']) %>" class="button small col-md-5 col-7">Delete</a>
+                <a href="/retailer/inventory/edit?name=<%= encodeURI(med['Medicine_name']) %>" class="button small col-md-5 col-7">Edit</a>
+                <a href="/retailer/inventory/delete?name=<%= encodeURI(med['Medicine_name']) %>" class="button small col-md-5 col-7">Delete</a>
               </p>
             </div>
           </div>
@@ -115,7 +115,7 @@ table th{
       <% } %>
     </div>
     <div class="row">
-      <a href="/inventory/add" class="button">Add medicine</a>
+      <a href="/retailer/inventory/add" class="button">Add medicine</a>
     </div>
   </div>
 </main>

@@ -8,9 +8,9 @@ router.get(
   '/inventory/',
   checkLogin,
   async (req, res) => {
-    const medicines = await Inventory.findAll(req.user.rid);
+    const medicines = await Inventory.findAll(req.user.id);
     console.log(medicines);
-    res.render('inventory.ejs', { medicines });
+    res.render('inventory.ejs', {medicines: medicines, ctype: 'retailer' });
   }
 );
 
@@ -18,10 +18,10 @@ router.get(
   '/inventory/edit',
   checkLogin,
   async (req, res, next) => {
-    const med = await Inventory.find(req.user.rid, req.query.name);
+    const med = await Inventory.find(req.user.id, req.query.name);
     if (med) {
       res.locals.error = req.flash('error');
-      res.render('inventory.edit.ejs', { med });
+      res.render('inventory.edit.ejs', {med: med, ctype: 'retailer'});
     } else {
       next();
     }
@@ -50,9 +50,9 @@ router.post(
       med['expiry_date']=req.body.expiry_date;
     }
     if (JSON.stringify(med) !== '{}') {
-      await Inventory.save(req.user.rid, req.query.name, med);
+      await Inventory.save(req.user.id, req.query.name, med);
     }
-    res.redirect('/inventory');
+    res.redirect('/retailer/inventory');
   }
 );
 
@@ -60,8 +60,8 @@ router.get(
   '/inventory/delete',
   checkLogin,
   async (req, res) => {
-    await Inventory.del(req.user.rid, req.query.name);
-    res.redirect('/inventory');
+    await Inventory.del(req.user.id, req.query.name);
+    res.redirect('/retailer/inventory');
   }
 );
 
@@ -73,7 +73,7 @@ router.get(
     for (const param of params) {
       [res.locals[param]] = req.flash(param);
     }
-    res.render('inventory.add.ejs');
+    res.render('inventory.add.ejs', {ctype: 'retailer'});
   }
 );
 
@@ -83,7 +83,7 @@ router.post(
   validator,
   async (req, res) => {
     const med = {
-      'Retailer_id': req.user.rid,
+      'Retailer_id': req.user.id,
       'Medicine_name': req.body.name,
       'MRP': req.body.mrp,
       'Stock': req.body.stock,
@@ -91,7 +91,7 @@ router.post(
       'expiry_date': req.body.expiry_date
     };
     await Inventory.add(med);
-    res.redirect('/inventory');
+    res.redirect('/retailer/inventory');
   }
 );
 

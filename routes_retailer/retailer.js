@@ -4,7 +4,7 @@ const router = Router();
 
 router.get('/all', async (req, res) => {
   const retailers = await Retailer.findAll();
-  res.render('retailer.ejs', { retailers });
+  res.render('retailer.ejs', { retailers, ctype: 'retailer' });
 });
 
 export default router;

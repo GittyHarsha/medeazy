@@ -52,12 +52,12 @@
 
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
-          <li><a class="nav-link" href="/">Home</a></li>
+          <li><a class="nav-link" href="/retailer">Home</a></li>
           <% if (locals.user) { %>
-            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="./retailer/dashboard">Dashboard</a></li>
           <% } else { %>
-            <li><a href="/auth/login">Login</a></li>
-            <li><a href="/auth/register">Signup</a></li>
+            <li><a href="./retailer/auth/login">Login</a></li>
+            <li><a href="./retailer/auth/register">Signup</a></li>
           <% } %>
           <li><a class="nav-link" href="/all">Shops</a></li>
           <li><a class="nav-link scrollto" href="#about">About</a></li>
@@ -69,12 +69,12 @@
           <ul>
             <% if (locals.user) { %>
               <h6 class="center"><%= user.name.split(' ')[0].replace(/./, char => char.toUpperCase()) %></h6>
-              <li><a href="/dashboard">Dashboard</a></li>
-              <li><a href="/profile">My Profile</a></li>
-              <li><a href="/auth/logout">Logout</a></li>
+              <li><a href="./retailer/dashboard">Dashboard</a></li>
+              <li><a href="./retailer/profile">My Profile</a></li>
+              <li><a href="./retailer/auth/logout">Logout</a></li>
             <% } else { %>
-              <li><a href="/retailer/auth/login">Login</a></li>
-              <li><a href="/retailer/auth/register">Sign up</a></li>
+              <li><a href="./retailer/auth/login">Login</a></li>
+              <li><a href="./retailer/auth/register">Sign up</a></li>
             <% } %>
           </ul>
         </div>
@@ -157,7 +157,7 @@
           <div class="col-md-6 d-flex align-items-stretch">
             <div class="icon-box">
               <div class="icon"><i class="fas fa-heartbeat"></i></div>
-              <h4><a href="/staffs">Staffs</a></h4>
+              <h4><a href="/retailers/staffs">Staffs</a></h4>
               <p class="fs-6">Manage staffs, staff details and salaries or add new staff. Update existing staff details or upgrade all salaries as a bonus</p>
             </div>
           </div>
@@ -165,7 +165,7 @@
           <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
             <div class="icon-box">
               <div class="icon"><i class="fas fa-pills"></i></div>
-              <h4><a href="/suppliers">Suppliers</a></h4>
+              <h4><a href="/retailers/suppliers">Suppliers</a></h4>
               <p class="fs-6">Manage suppliers and their details or add new suppliers. Update existing suppliers. These suppliers are used for placing orders</p>
             </div>
           </div>
@@ -173,7 +173,7 @@
           <div class="col-md-6 d-flex align-items-stretch mt-4">
             <div class="icon-box">
               <div class="icon"><i class="fas fa-hospital-user"></i></div>
-              <h4><a href="/inventory">Inventory</a></h4>
+              <h4><a href="/retailers/inventory">Inventory</a></h4>
               <p class="fs-6">Manage medicines stock and sales. Add, update or remove medicines from the application</p>
             </div>
           </div>
@@ -181,7 +181,7 @@
           <div class="col-md-6 d-flex align-items-stretch mt-4">
             <div class="icon-box">
               <div class="icon"><i class="fas fa-dna"></i></div>
-              <h4><a href="/orders">Orders</a></h4>
+              <h4><a href="/retailers/orders">Orders</a></h4>
               <p class="fs-6">Place or cancel orders for medicine. In case of order completion, inventory is automatically updated</p>
             </div>
           </div>

@@ -12,7 +12,7 @@
     <div class="d-flex justify-content-between align-items-center">
       <h2>Login</h2>
       <ol>
-        <li><a href="/">Home</a></li>
+        <li><a href="/retailer">Home</a></li>
         <li>Accounts</li>
         <li>Login</li>
       </ol>
@@ -23,7 +23,7 @@
 <main>
   <div class="form-container">
     <% const url = locals.redirect ?? ''; %>
-    <form id="login" action="<%= '/auth/login?' + url %>" method="post">
+    <form id="login" action="<%= '/retailer/auth/login?' + url %>" method="post">
      
       <div>
         <h2 class="center">Login</h2>
@@ -54,7 +54,7 @@
         <div class="center"><a class="toggleForm scrollto" href="#forgot">Forgot Password</a></div>
       </div>
       <div>
-        <div class="center">New user? <a href="/auth/register">Sign up</a></div>
+        <div class="center">New user? <a href="/retailer/auth/register">Sign up</a></div>
       </div>
       <div>
         <div class="field">
@@ -62,7 +62,7 @@
         </div>
       </div>
     </form>
-    <form id="forgot" class="hidden" action="/auth/forgot" method="get">
+    <form id="forgot" class="hidden" action="/retailer/auth/forgot" method="get">
       <div>
         <h2 class="center">Forgot Password</h2>
       </div>

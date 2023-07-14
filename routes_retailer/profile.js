@@ -8,21 +8,21 @@ const fields = ['name', 'contact', 'email', 'address'];
 router.get('/profile', async (req, res, next) => {
   const ret = await Retailer.find(req.query.id);
   if (ret) {
-    res.render('profile.ejs', { ret });
+    res.render('profile.ejs', { ret, ctype: 'retailer' });
   } else {
     next();
   }
 });
 
 router.get('/profile', (req, res) => {
-  res.redirect('/profile/edit');
+  res.redirect('/retailer/profile/edit');
 });
 
 router.get('/profile/edit', checkLogin, async (req, res) => {
   res.locals.error = req.flash('error');
   res.locals.success = req.flash('success');
   const ret = await Retailer.find(req.user.name, 'name');
-  res.render('profile.edit.ejs', { ret });
+  res.render('profile.edit.ejs', { ret, ctype: 'retailer' });
 });
 
 router.post('/profile/edit', checkLogin, validator, async (req, res) => {
@@ -32,11 +32,12 @@ router.post('/profile/edit', checkLogin, validator, async (req, res) => {
       ret[`Retailer_${col}`] = req.body[col];
     }
   }
+
   if (JSON.stringify(ret) !== '{}') {
-    await Retailer.save(req.user.rid, ret);
+    await Retailer.save(req.user.id, ret);
   }
   req.flash('success', 'Updated successfully');
-  res.redirect('/profile/edit');
+  res.redirect('/retailer/profile/edit');
 });
 
 router.get(
@@ -47,7 +48,7 @@ router.get(
         req.params.name === '' ||
         req.user.name.toLowerCase() === req.params.name.toLowerCase()
       ) {
-        return res.redirect('/profile/edit');
+        return res.redirect('/retailer/profile/edit');
       }
     }
     next();
@@ -55,7 +56,7 @@ router.get(
   async (req, res, next) => {
     const ret = await Retailer.find(req.params.name, 'name');
     if (ret) {
-      res.render('profile.ejs', { ret });
+      res.render('profile.ejs', { ret, ctype: 'retailer' });
     } else {
       next();
     }

@@ -7,6 +7,9 @@ name : string
 id : string
 */
 
+// in the whole folder structure how is req.user added 
+
+
 const verifyPassword = async (username, password, type) => {
   if(type=='supplier') {
   let sql;

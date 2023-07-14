@@ -23,17 +23,17 @@ router.get(
   '/orders/',
   checkLogin,
   async (req, res) => {
-    const pending = await Order.pending(req.user.rid);
-    const completed = await Order.completed(req.user.rid);
-    const cancelled = await Order.cancelled(req.user.rid);
-    const suppliers = await Supplier.findAll(req.user.rid);
+    const pending = await Order.pending(req.user.id);
+    const completed = await Order.completed(req.user.id);
+    const cancelled = await Order.cancelled(req.user.id);
+    const suppliers = await Supplier.findAll(req.user.id);
     const supmap = new Map();
     res.locals.error = req.flash('error');
     res.locals.success = req.flash('success');
     for (const sup of suppliers) {
       supmap.set(sup['Supplier_id'], sup['Supplier_name']);
     }
-    res.render('order.ejs', { pending, completed, cancelled, supmap });
+    res.render('order.ejs', { pending, completed, cancelled, supmap , ctype: 'supplier'});
   }
 );
 
@@ -41,11 +41,11 @@ router.get(
   '/orders/edit',
   checkLogin,
   async (req, res, next) => {
-    const order = await Order.find(req.user.rid, req.query.id);
+    const order = await Order.find(req.user.id, req.query.id);
     if (order) {
       res.locals.error = req.flash('error');
-      const suppliers = await Supplier.findAll(req.user.rid);
-      res.render('order.edit.ejs', { order, suppliers });
+      const suppliers = await Supplier.findAll(req.user.id);
+      res.render('order.edit.ejs', { order, suppliers, ctype: 'supplier' });
     } else {
       next();
     }
@@ -65,16 +65,16 @@ router.post(
       });
     }
     const order = {
-      'Retailer_id': req.user.rid,
+      'Retailer_id': req.user.id,
       'Supplier_id': req.body.supplier,
       'Medicine_name': req.body.name,
       'Quantity': req.body.quantity,
       'MRP': req.body.mrp,
       'Order_date': req.body.ordate
     };
-    await Order.save(req.user.rid, req.query.id, order);
+    await Order.save(req.user.id, req.query.id, order);
     req.flash('success', 'Edit successful');
-    res.redirect('/orders/');
+    res.redirect('/supplier/orders/');
   }
 );
 
@@ -90,13 +90,13 @@ router.get('/orders/add', checkLogin, async (req, res) => {
     [res.locals[col]] = req.flash(col);
   }
   res.locals.error = req.flash('error');
-  const suppliers = await Supplier.findAll(req.user.rid);
-  res.render('order.add.ejs', { suppliers });
+  const suppliers = await Supplier.findAll(req.user.id);
+  res.render('order.add.ejs', {suppliers: suppliers, ctype: 'supplier' });
 });
 
 router.post('/orders/add', checkLogin, validator, async (req, res) => {
   const order = {
-    'Retailer_id': req.user.rid,
+    'Retailer_id': req.user.id,
     'Supplier_id': req.body.supplier,
     'Medicine_name': req.body.name,
     'Quantity': req.body.quantity,
@@ -106,7 +106,7 @@ router.post('/orders/add', checkLogin, validator, async (req, res) => {
   await Order.add(order);
   const sql = 'SELECT Retailer_email FROM Retailers WHERE Retailer_id = ?';
   try {
-    const [[row]] = await db.query(sql, [req.user.rid]);
+    const [[row]] = await db.query(sql, [req.user.id]);
     console.log(row);
     const mailOptions = {
       from: row.Retailer_email,
@@ -136,26 +136,26 @@ router.post('/orders/add', checkLogin, validator, async (req, res) => {
   }
   
   
-  res.redirect('/orders');
+  res.redirect('/supplier/orders');
 });
 
 router.post('/orders/finish', checkLogin, async (req, res, next) => {
-  const order = await Order.find(req.user.rid, req.query.id);
+  const order = await Order.find(req.user.id, req.query.id);
   if (order) {
-    await Order.finish(req.user.rid, req.query.id);
+    await Order.finish(req.user.id, req.query.id);
     req.flash('success', 'order completed and added to inventory successfully');
-    res.redirect('/orders/');
+    res.redirect('/supplier/orders/');
   } else {
     next();
   }
 });
 
 router.post('/orders/cancel', checkLogin, async (req, res, next) => {
-  const order = await Order.find(req.user.rid, req.query.id);
+  const order = await Order.find(req.user.id, req.query.id);
   if (order) {
-    await Order.cancel(req.user.rid, req.query.id);
+    await Order.cancel(req.user.id, req.query.id);
     req.flash('success', 'order cancelled');
-    res.redirect('/orders/');
+    res.redirect('/supplier/orders/');
   } else {
     next();
   }

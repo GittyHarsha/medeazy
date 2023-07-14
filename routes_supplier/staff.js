@@ -8,8 +8,8 @@ router.get(
   '/staffs/',
   checkLogin,
   async (req, res) => {
-    const staffs = await Staff.findAll(req.user.rid);
-    res.render('staff.ejs', { staffs });
+    const staffs = await Staff.findAll(req.user.id);
+    res.render('staff.ejs', { staffs, ctype: 'supplier' });
   }
 );
 
@@ -17,10 +17,10 @@ router.get(
   '/staffs/edit',
   checkLogin,
   async (req, res, next) => {
-    const staff = await Staff.find(req.user.rid, req.query.id);
+    const staff = await Staff.find(req.user.id, req.query.id);
     if (staff) {
       res.locals.error = req.flash('error');
-      res.render('staff.edit.ejs', { staff });
+      res.render('staff.edit.ejs', { staff, ctype: 'supplier' });
     } else {
       next();
     }
@@ -46,9 +46,9 @@ router.post(
       }
     }
     if (JSON.stringify(staff) !== '{}') {
-      await Staff.save(req.user.rid, req.query.id, staff);
+      await Staff.save(req.user.id, req.query.id, staff);
     }
-    res.redirect('/staffs');
+    res.redirect('/supplier/staffs');
   }
 );
 
@@ -56,8 +56,8 @@ router.get(
   '/staffs/delete',
   checkLogin,
   async (req, res) => {
-    await Staff.del(req.user.rid, req.query.id);
-    res.redirect('/staffs');
+    await Staff.del(req.user.id, req.query.id);
+    res.redirect('/supplier/staffs');
   }
 );
 
@@ -67,12 +67,13 @@ router.get('/staffs/add', checkLogin, (req, res) => {
     [res.locals[col]] = req.flash(col);
   }
   res.locals.error = req.flash('error');
-  res.render('staff.add.ejs');
+  res.render('staff.add.ejs', {ctype: 'supplier'});
 });
 
 router.post('/staffs/add', checkLogin, validator, async (req, res) => {
+
   const staff = {
-    'Retailer_id': req.user.rid,
+    'Retailer_id': req.user.id,
     'Staff_name': req.body.name,
     'Staff_contact': req.body.contact,
     'Staff_email': req.body.email,
@@ -81,8 +82,10 @@ router.post('/staffs/add', checkLogin, validator, async (req, res) => {
     'Salary': req.body.salary
   };
   await Staff.add(staff);
+  console.log("added staff successfully");
   console.log(staff);
-  res.redirect('/staffs');
+
+  res.redirect('/supplier/staffs');
 });
 
 export default router;

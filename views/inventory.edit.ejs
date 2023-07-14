@@ -10,8 +10,8 @@
     <div class="d-flex justify-content-between align-items-center">
       <h2>Edit medicine</h2>
       <ol>
-        <li><a href="/">Home</a></li>
-        <li><a href="/inventory">Inventory</a></li>
+        <li><a href="/retailer">Home</a></li>
+        <li><a href="/retailer/inventory">Inventory</a></li>
         <li>Edit medicine</li>
       </ol>
     </div>
@@ -20,7 +20,7 @@
 </section><!-- End Breadcrumbs Section -->
 <main>
 	<div class="form-container">
-    <form action="/inventory/edit?name=<%= encodeURI(med['Medicine_name']) %>" method="post">
+    <form action="/retailer/inventory/edit?name=<%= encodeURI(med['Medicine_name']) %>" method="post">
 			<div>
 				<h2 class="center">Edit Medicine</h2>
 			</div>

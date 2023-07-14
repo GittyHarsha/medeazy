@@ -9,7 +9,7 @@
     <div class="d-flex justify-content-between align-items-center">
       <h2>Orders</h2>
       <ol>
-        <li><a href="/">Home</a></li>
+        <li><a href="/retailer">Home</a></li>
         <li>Orders</li>
       </ol>
     </div>
@@ -41,7 +41,7 @@
                   <li><span>Order date: </span><span><%= order['Order_date'].toDateString() %></span></li>
                 </ul>
                 <p class="row">
-                  <a href="/orders/edit?id=<%= order['Order_id'] %>" class="button small col-4">Edit</a>
+                  <a href="/retailer/orders/edit?id=<%= order['Order_id'] %>" class="button small col-4">Edit</a>
                 </p>
                 <p class="row">
                   <button type="button" class="btn-finish button small col-md-5 col-7" data-oid="<%= order['Order_id'] %>">Complete</button>
@@ -106,7 +106,7 @@
       </div>
     </div>
     <div class="row">
-      <a href="/orders/add" class="button">Add order</a>
+      <a href="/retailer/orders/add" class="button">Add order</a>
     </div>
   </div>
 </main>

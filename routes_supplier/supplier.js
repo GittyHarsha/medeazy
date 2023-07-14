@@ -11,7 +11,7 @@ router.get(
   checkLogin,
   async (req, res) => {
     const suppliers = await Supplier.findAll(req.user.rid);
-    res.render('supplier.ejs', { suppliers });
+    res.render('supplier.ejs', { suppliers, ctype: 'supplier' });
   }
 );
 
@@ -22,7 +22,7 @@ router.get(
     const sup = await Supplier.find(req.user.rid, req.query.id);
     if (sup) {
       res.locals.error = req.flash('error');
-      res.render('supplier.edit.ejs', { sup });
+      res.render('supplier.edit.ejs', { sup, ctype: 'supplier' });
     } else {
       next();
     }
@@ -43,7 +43,7 @@ router.post(
     if (JSON.stringify(supplier) !== '{}') {
       await Supplier.save(req.user.rid, req.query.id, supplier);
     }
-    res.redirect('/suppliers');
+    res.redirect('/supplier/suppliers');
   }
 );
 
@@ -52,7 +52,7 @@ router.get(
   checkLogin,
   async (req, res) => {
     await Supplier.del(req.user.rid, req.query.id);
-    res.redirect('/suppliers');
+    res.redirect('/supplier/suppliers');
   }
 );
 
@@ -61,7 +61,7 @@ router.get('/suppliers/add', checkLogin, (req, res) => {
   for (const col of fields) {
     [res.locals[col]] = req.flash(col);
   }
-  res.render('supplier.add.ejs');
+  res.render('supplier.add.ejs', {ctype: 'supplier'});
 });
 
 router.post(
@@ -77,7 +77,7 @@ router.post(
       'Supplier_address': req.body.address
     };
     await Supplier.add(sup);
-    res.redirect('/suppliers');
+    res.redirect('/supplier/suppliers');
   }
 );
 

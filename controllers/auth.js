@@ -6,12 +6,12 @@ const forgotControllerPOST = async (req, res) => {
   const { rid } = req.body;
   const { answer } = req.body;
   const { password } = req.body;
-  const yes = await User.verifyAnswer(rid, answer);
+  const yes = await User.verifyAnswer(rid, answer, 'retailer');
   if (!yes) {
     req.flash('error', 'Invalid answer');
     res.redirect('/auth/login#forgot');
   } else {
-    await User.changePassword(password, rid);
+    await User.changePassword(password, rid, 'retailer');
     req.flash('success', 'Password changed successfully');
     res.redirect('/auth/login');
   }
@@ -22,7 +22,7 @@ const forgotControllerGET = async (req, res) => {
     res.redirect('/dashboard');
     return;
   }
-  const arr = await User.findHintQ(req.query.username);
+  const arr = await User.findHintQ(req.query.username, 'retailer');
   if (arr) {
     [res.locals.hintq, res.locals.rid] = arr;
     res.render('forgot');
@@ -54,13 +54,13 @@ const changePasswordPOST = async (req, res, next) => {
   if (rid !== req.user.rid) {
     return next({ code: 400, desc: 'Bad request', content: 'rid malformed' });
   }
-  const yes = await User.verifyById(old, rid);
+  const yes = await User.verifyById(old, rid, 'retailer');
   if (!yes) {
     req.flash('Old password incorrect');
     res.redirect('/auth/change');
     return;
   }
-  await User.changePassword(password, rid);
+  await User.changePassword(password, rid, 'retailer');
   req.flash('success', 'Password changed successfully');
   res.redirect('/profile/edit');
 };
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS User_Accounts (
 const registerController = async (req, res) => {
   console.log(req.body);
 
-  if(req.body.customer_type=="retailer") {
+
   const ret = {
     'Retailer_name': req.body.name,
     'Retailer_contact': req.body.contact,
@@ -120,26 +120,8 @@ const registerController = async (req, res) => {
   await User.add(user, 'retailer');
   req.flash('success', 'Registered successfully. Please login to continue');
   res.redirect('/retailer/auth/login');
-  }
-  else if(req.body.customer_type=="supplier") {
-    const sup = {
-      'Supplier_name': req.body.name,
-      'Supplier_contact': req.body.contact,
-      'Supplier_email': req.body.email,
-      'Supplier_address': req.body.address
-    };
-    const id = await Supplier.add(sup);
-    const user = {
-      'password': req.body.password,
-      'Hint_question': req.body.hintq,
-      'Answer': req.body.answer,
-      'Supplier_id': id
-    };
-
-    await User.add(user, 'supplier');
-    req.flash('success', 'Registered successfully. Please login to continue');
-    res.redirect('/supplier/auth/login');
-    }
+  
+ 
   
 };
 
@@ -148,13 +130,13 @@ const hintControllerPOST = async (req, res) => {
     'Hint_question': req.body.hintq,
     'Answer': req.body.answer
   };
-  await User.saveHintq(req.user.rid, obj);
+  await User.saveHintq(req.user.rid, obj, 'retailer');
   req.flash('success', 'Hint question changed successfully');
   res.redirect('/profile/edit');
 };
 
 const deleteControllerPOST = async (req, res) => {
-  const result = await User.verifyById(req.body.old, req.user.rid);
+  const result = await User.verifyById(req.body.old, req.user.rid, 'retailer');
   if (result) {
     await Retailer.del(req.user.rid);
     req.flash('success', 'Account deleted successfully');

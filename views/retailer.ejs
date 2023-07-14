@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between align-items-center">
       <h2>Shops</h2>
       <ol>
-        <li><a href="/">Home</a></li>
+        <li><a href="/retailer">Home</a></li>
         <li>All shops</li>
       </ol>
     </div>
@@ -34,7 +34,7 @@
                 <li><span>Address: </span><span><%= ret['Retailer_address'] %></span></li>
               </ul>
               <p class="row">
-                <a href="/profile?id=<%= ret['Retailer_id'] %>" class="button small col-7">View profile</a>
+                <a href="/retailer/profile?id=<%= ret['Retailer_id'] %>" class="button small col-7">View profile</a>
               </p>
             </div>
           </div>
@@ -42,7 +42,7 @@
       <% } %>
     </div>
     <div class="row">
-      <a href="/auth/register" class="button">Signup</a>
+      <a href="/retailer/auth/register" class="button">Signup</a>
     </div>
   </div>
 </main>

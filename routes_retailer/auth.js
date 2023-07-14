@@ -21,21 +21,15 @@ import {
 const router = Router();
 
 router.get('/auth/', (req, res) => {
-  res.redirect('/auth/login');
+  res.redirect('/retailer/auth/login');
 });
 
-router.get('/supplier/auth/login', (req, res)=>{
-  res.render('login.ejs', {customer_type: 'supplier'});
-});
-router.get('/retailer/auth/login', (req, res)=>{
-  res.render('login.ejs', {customer_type: 'retailer'});
-});
 
 router.get('/auth/login', (req, res) => {
   if (req.isAuthenticated()) {
     const [url] = req.flash('redirect');
     console.log(url);
-    res.redirect(url ?? '/dashboard');
+    res.redirect(url ?? '/retailer/dashboard');
     return;
   }
   console.log("im here");
@@ -44,19 +38,13 @@ router.get('/auth/login', (req, res) => {
   [res.locals.username] = req.flash('username');
   [res.locals.password] = req.flash('password');
   [res.locals.redirect] = req.flash('redirect');
-  res.render('login.ejs');
+  res.render('login.ejs', {ctype: 'retailer'});
 });
 
-router.get("/supplier/auth/register", (req, res)=> {
-  res.render('register.ejs', {customer_type: 'supplier'});
-});
 
-router.get("/retailer/auth/register", (req, res)=> {
-  res.render('register.ejs', {customer_type: 'retailer'});
-});
 router.get('/auth/register', (req, res) => {
   if (req.isAuthenticated()) {
-    res.redirect('/dashboard');
+    res.redirect('/retailer/dashboard');
     return;
   }
   res.locals.error = req.flash('error');
@@ -72,7 +60,7 @@ router.get('/auth/register', (req, res) => {
   for (const param of params) {
     [res.locals[param]] = req.flash(param);
   }
-  res.render('register.ejs');
+  res.render('register.ejs', {ctype: 'retailer'});
 });
 router.post('/auth/register', registerValidator, registerController);
 
@@ -94,7 +82,7 @@ router.get('/auth/logout', (req, res) => {
   for (const msg of errors) {
     req.flash('error', msg);
   }
-  res.redirect('/auth/login');
+  res.redirect('/retailer/auth/login');
 });
 
 router.get('/auth/change', changePasswordGET);
@@ -107,13 +95,13 @@ router.post(
 router.post(
   '/auth/login',
   loginValidator,
-  passport.authenticate('local', {
+  passport.authenticate('custom', {
     /* successRedirect: '/dashboard', */
-    failureRedirect: '/auth/login',
+    failureRedirect: '/retailer/auth/login',
     failureFlash: true
   }),
   (req, res) => {
-    const url = req.query.url ?? '/dashboard';
+    const url = req.query.url ?? '/retailer/dashboard';
     console.log(url);
     res.redirect(url);
   }
@@ -123,7 +111,7 @@ router.get('/auth/hint', checkLogin, (req, res) => {
   res.locals.error = req.flash('error');
   [res.locals.hintq] = req.flash('hintq');
   [res.locals.answer] = req.flash('answer');
-  res.render('changeHintq.ejs');
+  res.render('changeHintq.ejs', {ctype: 'retailer'});
 });
 router.post(
   '/auth/hint',
@@ -135,7 +123,7 @@ router.post(
 router.get('/auth/delete', checkLogin, (req, res) => {
   res.locals.error = req.flash('error');
   [res.locals.old] = req.flash('old');
-  res.render('delete.ejs');
+  res.render('delete.ejs', {ctype: 'retailer'});
 });
 router.post(
   '/auth/delete',
