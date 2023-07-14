@@ -11,24 +11,34 @@ id : string
 
 
 const verifyPassword = async (username, password, type) => {
+  console.log("verifying password");
+  console.log("username: ", username);
+  console.log("password: ", password);
+  console.log("customer type: ", type);
   if(type=='supplier') {
   let sql;
   try {
     const User = { name: username };
+
     sql = 'SELECT Supplier_id FROM Suppliers WHERE Supplier_name = ?';
     const [suppliers] = await db.query(sql, [username]);
+    console.log("suppliers length: ", suppliers.length);
+  
     if (suppliers.length !== 1) {
       return null;
     }
     User.id = suppliers[0]['Supplier_id'];
+    console.log("inside verify password, user id: ", User.id);
     sql =
     'SELECT User_id, Password_hash FROM User_Accounts WHERE Supplier_id = ?';
     const [[row]] = await db.query(sql, [User.id]);
     User.uid = row['User_id'];
     const hash = row['Password_hash'].toString();
     const result = await bcrypt.compare(password, hash);
+    console.log("User: ", User);
     return result ? User : null;
   } catch (error) {
+    console.log("error happened while verifying password");
     return Promise.reject(error);
   }
 }
@@ -194,9 +204,9 @@ const add = async (user, customer_type) => {
 else {
   const sql = `
     INSERT INTO User_Accounts
-    (Password_hash, Hint_question, Answer, Retailer_id) VALUES ?
+    (Password_hash, Hint_question, Answer, Supplier_id) VALUES ?
   `;
-  const fields = ['Password_hash', 'Hint_question', 'Answer', 'Retailer_id'];
+  const fields = ['Password_hash', 'Hint_question', 'Answer', 'Supplier_id'];
   try {
     user['Password_hash'] = await bcrypt.hash(user.password, 10);
     await db.query(sql, [[fields.map(col => user[col])]]);

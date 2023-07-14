@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { checkLogin } from '../middlewares/auth.js';
-import Staff from '../models/staff.model.js';
+import Staff from '../models/supplier_staff.model.js';
 import validator from '../middlewares/validators/staff.js';
 const router = Router();
 
@@ -71,9 +71,10 @@ router.get('/staffs/add', checkLogin, (req, res) => {
 });
 
 router.post('/staffs/add', checkLogin, validator, async (req, res) => {
-
+console.log("inside staffs add");
+console.log("supplier id: ")
   const staff = {
-    'Retailer_id': req.user.id,
+    'Supplier_id': req.user.id,
     'Staff_name': req.body.name,
     'Staff_contact': req.body.contact,
     'Staff_email': req.body.email,

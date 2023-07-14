@@ -48,6 +48,8 @@ app.all('/retailer', (req, res)=>{
 
 function put_type(req, res, next) {
 var url=req.url;
+console.log("inside put_type");
+console.log("url: ", req.url);
 if(url.includes("supplier")) {
   req.body.customer_type='supplier';
 }
@@ -56,9 +58,9 @@ else {
 }
 next();
 }
-
-app.use('/retailer', put_type, router_retailer);
-app.use('/supplier', put_type, router_supplier);
+app.use('/', put_type);
+app.use('/retailer',  router_retailer);
+app.use('/supplier', router_supplier);
 // url not found
 
 app.use((req, res) => {

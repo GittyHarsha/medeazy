@@ -15,14 +15,14 @@ router.use((req, res, next) => {
   }
   next();
 });
-router.use('/supplier', auth);
-router.use('/supplier', protectd);
-router.use('/supplier', profile);
-router.use('/supplier', staff);
-router.use('/supplier', supplier);
-router.use('/supplier', inventory);
-router.use('/supplier', order);
-router.use('/supplier', retailer);
+router.use(auth);
+router.use(Protected);
+router.use(profile);
+router.use(staff);
+router.use(supplier);
+router.use(inventory);
+router.use(order);
+router.use(retailer);
 router.get('/500', (req, res, next) => {
   next({ code: 500, desc: 'Internal server error' });
 });

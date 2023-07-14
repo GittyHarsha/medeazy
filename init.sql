@@ -134,7 +134,21 @@ CREATE TABLE IF NOT EXISTS Staffs (
 	ON DELETE CASCADE
 	ON UPDATE CASCADE
 );
-
+CREATE TABLE IF NOT EXISTS Supplier_Staffs (
+	Supplier_id varchar(10),
+	Staff_id int,
+	Staff_name varchar(30),
+	Staff_contact varchar(10),
+	Staff_email varchar(50),
+	Staff_address varchar(80),
+	Job_role varchar(25),
+	Salary int,
+	PRIMARY KEY (Supplier_id, Staff_id),
+	FOREIGN KEY (Supplier_id)
+	REFERENCES Suppliers(Supplier_id)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
 
 --CREATE USER 'project'@'localhost' IDENTIFIED BY 'har123Kir456@';
 --GRANT SELECT, INSERT, UPDATE, DELETE ON medstore.* TO 'project'@'localhost';

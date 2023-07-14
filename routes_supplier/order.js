@@ -65,7 +65,7 @@ router.post(
       });
     }
     const order = {
-      'Retailer_id': req.user.id,
+      'Supplier_id': req.user.id,
       'Supplier_id': req.body.supplier,
       'Medicine_name': req.body.name,
       'Quantity': req.body.quantity,
@@ -96,7 +96,7 @@ router.get('/orders/add', checkLogin, async (req, res) => {
 
 router.post('/orders/add', checkLogin, validator, async (req, res) => {
   const order = {
-    'Retailer_id': req.user.id,
+    'Supplier_id': req.user.id,
     'Supplier_id': req.body.supplier,
     'Medicine_name': req.body.name,
     'Quantity': req.body.quantity,
@@ -104,7 +104,7 @@ router.post('/orders/add', checkLogin, validator, async (req, res) => {
     'Order_date': req.body.ordate,
   };
   await Order.add(order);
-  const sql = 'SELECT Retailer_email FROM Retailers WHERE Retailer_id = ?';
+  const sql = 'SELECT Retailer_email FROM Retailers WHERE Supplier_id = ?';
   try {
     const [[row]] = await db.query(sql, [req.user.id]);
     console.log(row);

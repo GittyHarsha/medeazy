@@ -3,11 +3,11 @@
 <%- include('partials/layout'); %>
 <main>
   <p>Hello, welcome to this site. This is used for blah blah blah. . .</p>
-  <p>Your everything here: <a href="/retailer/dashboard">Dashboard</a></p>
-  <p>Login page: <a href="/retailer/auth/login">Login</a></p>
-  <p>New user? <a href="/retailer/auth/register">Register</a></p>
-  <p>forgot password? <a href="/retailer/auth/login#forgot">change it here</a></p>
-  <p>Link to change password: <a href="/retailer/auth/change">Change password</a></p>
-  <p>404 page: <a href="/retailer/does/not/exist/">non-existent</a></p>
+  <p>Your everything here: <a href="/<%=  locals.ctype %>/dashboard">Dashboard</a></p>
+  <p>Login page: <a href="/<%=  locals.ctype %>/auth/login">Login</a></p>
+  <p>New user? <a href="/<%=  locals.ctype %>/auth/register">Register</a></p>
+  <p>forgot password? <a href="/<%=  locals.ctype %>/auth/login#forgot">change it here</a></p>
+  <p>Link to change password: <a href="/<%=  locals.ctype %>/auth/change">Change password</a></p>
+  <p>404 page: <a href="/<%=  locals.ctype %>/does/not/exist/">non-existent</a></p>
 </main>
 <%- include('./partials/footer.ejs'); %>

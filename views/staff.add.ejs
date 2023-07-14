@@ -10,8 +10,8 @@
     <div class="d-flex justify-content-between align-items-center">
       <h2>Add staff</h2>
       <ol>
-        <li><a href="/retailer">Home</a></li>
-        <li><a href="/retailer/staffs">Staff</a></li>
+        <li><a href="/<%=  locals.ctype %>">Home</a></li>
+        <li><a href="/<%=  locals.ctype %>/staffs">Staff</a></li>
         <li>Add staff</li>
       </ol>
     </div>
@@ -20,7 +20,7 @@
 </section><!-- End Breadcrumbs Section -->
 <main>
 	<div class="form-container">
-		<form action="/retailer/staffs/add" method="post" class="big">
+		<form action="/<%=  locals.ctype %>/staffs/add" method="post" class="big">
 			<div>
 				<h2 class="center">Add staff</h2>
 			</div>

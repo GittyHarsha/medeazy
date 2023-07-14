@@ -2,29 +2,32 @@ import { checkLogin } from '../middlewares/auth.js';
 import User from '../models/user.model.js';
 import Retailer from '../models/retailer.model.js';
 import Supplier from '../models/supplier.model.js';
+
 const forgotControllerPOST = async (req, res) => {
-  const { rid } = req.body;
+  var ctype=req.body.customer_type;
+  const { id } = req.body;
   const { answer } = req.body;
   const { password } = req.body;
-  const yes = await User.verifyAnswer(rid, answer, 'retailer');
+  const yes = await User.verifyAnswer(id, answer, ctype);
   if (!yes) {
     req.flash('error', 'Invalid answer');
     res.redirect('/auth/login#forgot');
   } else {
-    await User.changePassword(password, rid, 'retailer');
+    await User.changePassword(password, id, ctype);
     req.flash('success', 'Password changed successfully');
     res.redirect('/auth/login');
   }
 };
 
 const forgotControllerGET = async (req, res) => {
+  var ctype=req.body.customer_type;
   if (req.isAuthenticated()) {
     res.redirect('/dashboard');
     return;
   }
-  const arr = await User.findHintQ(req.query.username, 'retailer');
+  const arr = await User.findHintQ(req.query.username, ctype);
   if (arr) {
-    [res.locals.hintq, res.locals.rid] = arr;
+    [res.locals.hintq, res.locals.id] = arr;
     res.render('forgot');
     return;
   }
@@ -35,8 +38,9 @@ const forgotControllerGET = async (req, res) => {
 const changePasswordGET = [
   checkLogin,
   (req, res) => {
-    if (req.user && req.user.rid) {
-      res.locals.rid = req.user.rid;
+    var ctype=req.body.customer_type;
+    if (req.user && req.user.id) {
+      res.locals.id = req.user.id;
       res.locals.error = req.flash('error');
       res.render('changePass.ejs');
     } else {
@@ -48,19 +52,20 @@ const changePasswordGET = [
 ];
 
 const changePasswordPOST = async (req, res, next) => {
+  var ctype=req.body.customer_type;
   const { old } = req.body;
   const { password } = req.body;
-  const { rid } = req.body;
-  if (rid !== req.user.rid) {
-    return next({ code: 400, desc: 'Bad request', content: 'rid malformed' });
+  const { id } = req.body;
+  if (id !== req.user.id) {
+    return next({ code: 400, desc: 'Bad request', content: 'id malformed' });
   }
-  const yes = await User.verifyById(old, rid, 'retailer');
+  const yes = await User.verifyById(old, id, ctype);
   if (!yes) {
     req.flash('Old password incorrect');
     res.redirect('/auth/change');
     return;
   }
-  await User.changePassword(password, rid, 'retailer');
+  await User.changePassword(password, id, ctype);
   req.flash('success', 'Password changed successfully');
   res.redirect('/profile/edit');
 };
@@ -101,7 +106,11 @@ CREATE TABLE IF NOT EXISTS User_Accounts (
 );*/
 const registerController = async (req, res) => {
   console.log(req.body);
+  var ctype=req.body.customer_type;
+  console.log("in register controller");
+  console.log("customer type: ", ctype);
 
+  if(ctype=='retailer') {
 
   const ret = {
     'Retailer_name': req.body.name,
@@ -109,36 +118,56 @@ const registerController = async (req, res) => {
     'Retailer_email': req.body.email,
     'Retailer_address': req.body.address
   };
-  const rid = await Retailer.add(ret);
+  const id = await Retailer.add(ret);
   const user = {
     'password': req.body.password,
     'Hint_question': req.body.hintq,
     'Answer': req.body.answer,
-    'Retailer_id': rid
+    'Retailer_id': id
   };
   
-  await User.add(user, 'retailer');
+  await User.add(user, ctype);
   req.flash('success', 'Registered successfully. Please login to continue');
   res.redirect('/retailer/auth/login');
+}
+else {
+  const sup = {
+    'Supplier_name': req.body.name,
+    'Supplier_contact': req.body.contact,
+    'Supplier_email': req.body.email,
+    'Supplier_address': req.body.address
+  };
+  const id = await Supplier.add(sup);
+  const user = {
+    'password': req.body.password,
+    'Hint_question': req.body.hintq,
+    'Answer': req.body.answer,
+    'Supplier_id': id
+  };
   
+  await User.add(user, ctype);
+  req.flash('success', 'Registered successfully. Please login to continue');
+  res.redirect('/supplier/auth/login');
+}
  
   
 };
 
 const hintControllerPOST = async (req, res) => {
+  var ctype=req.body.customer_type;
   const obj = {
     'Hint_question': req.body.hintq,
     'Answer': req.body.answer
   };
-  await User.saveHintq(req.user.rid, obj, 'retailer');
+  await User.saveHintq(req.user.id, obj, ctype);
   req.flash('success', 'Hint question changed successfully');
   res.redirect('/profile/edit');
 };
 
 const deleteControllerPOST = async (req, res) => {
-  const result = await User.verifyById(req.body.old, req.user.rid, 'retailer');
+  const result = await User.verifyById(req.body.old, req.user.id, ctype);
   if (result) {
-    await Retailer.del(req.user.rid);
+    await Retailer.del(req.user.id);
     req.flash('success', 'Account deleted successfully');
     res.redirect('/auth/logout');
   } else {

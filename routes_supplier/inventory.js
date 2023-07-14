@@ -83,7 +83,7 @@ router.post(
   validator,
   async (req, res) => {
     const med = {
-      'Retailer_id': req.user.id,
+      'Supplier_id': req.user.id,
       'Medicine_name': req.body.name,
       'MRP': req.body.mrp,
       'Stock': req.body.stock,

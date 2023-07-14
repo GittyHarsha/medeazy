@@ -36,8 +36,8 @@
                 <li><span>Salary: </span><span><%= staff['Salary'] %></span></li>
               </ul>
               <p class="row">
-                <a href="/retailer/staffs/edit?id=<%= staff['Staff_id'] %>" class="button small col-md-5 col-7">Edit</a>
-                <a href="/retailer/staffs/delete?id=<%= staff['Staff_id'] %>" class="button small col-md-5 col-7">Delete</a>
+                <a href="/<%=  locals.ctype %>/staffs/edit?id=<%= staff['Staff_id'] %>" class="button small col-md-5 col-7">Edit</a>
+                <a href="/<%=  locals.ctype %>/staffs/delete?id=<%= staff['Staff_id'] %>" class="button small col-md-5 col-7">Delete</a>
               </p>
             </div>
           </div>
@@ -45,7 +45,7 @@
       <% } %>
     </div>
     <div class="row">
-      <a href="/retailer/staffs/add" class="button">Add staff</a>
+      <a href="/<%=  locals.ctype %>/staffs/add" class="button">Add staff</a>
     </div>
   </div>
 </main>
