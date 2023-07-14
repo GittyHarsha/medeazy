@@ -3,6 +3,24 @@
 	<link rel="stylesheet" href="/css/forms.css" />
 	<script src="/js/forms.js" defer></script>
 <%- include('partials/layout'); %>
+<style>
+  .radio-button {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+}
+
+
+.radio-button:hover {
+  background-color: #eee;
+}
+
+.radio-button:checked {
+  background-color: #ddd;
+}
+
+</style>
 <!-- ======= Breadcrumbs Section ======= -->
 <section class="breadcrumbs">
   <div class="container">
@@ -20,71 +38,32 @@
 </section><!-- End Breadcrumbs Section -->
 <main>
 	<div class="form-container">
-		<form action="/retailer/orders/add" method="post" class="big">
+		<form action="/<%= locals.ctype %>/orders/add/select" method="post" class="big">
 			<div>
-				<h2 class="center">Add order</h2>
+				<h2 class="center">Select Supplier</h2>
 			</div>
-      <%- include('partials/alert') %>
-      <div>
-        <div class="field">
-          <label>
-            <input type="text" name="name" placeholder="Medicine name" maxlength="40" <% if(locals.name){ %> value="<%= name %>" <% } %> />
-            <span>Medicine name:</span>
-          </label>
-          <p><span class="error"></span><span class="counter"></span></p>
-          <p><span class="hint"></span></p>
-        </div>
-      </div>
-      <div>
-        <div class="field">
-          <label>
-            <input type="number" name="quantity" placeholder="Quantity" maxlength="40" <% if(locals.contact){ %> value="<%= contact %>" <% } %> />
-            <span>Quantity:</span>
-          </label>
-          <p><span class="error"></span></p>
-          <p><span class="hint"></span></p>
-        </div>
-      </div>
-      <div>
-        <div class="field">
-          <label>
-            <input type="number" name="mrp" placeholder="Price" <% if(locals.address){ %> value="<%= address %>" <% } %> />
-            <span>Price:</span>
-          </label>
-          <p><span class="error"></span></p>
-          <p><span class="hint"></span></p>
-        </div>
-      </div>
-      <div>
-        <div class="field">
-          <label>
-            <input type="date" name="ordate" placeholder="Order date" <% if(locals.jobrole){ %> value="<%= jobrole %>" <% } %> />
-            <span>Order date:</span>
-          </label>
-          <p><span class="error"></span></p>
-          <p><span class="hint"></span></p>
-        </div>
-      </div>
-      <div>
-        <div class="field">
-          <label>
-            <select name="supplier">
               <% for (const sup of suppliers) { %>
-                <option value="<%= sup['Supplier_id'] %>"><%= sup['Supplier_name'] %></option>
+                <div class="field radio-button">
+                
+                    <label for="supplier-<%= sup['Supplier_id']%>" display="inline-block; text-align: left;">
+                      <div class="accordion">
+                         <p>Name: <%= sup['Supplier_name'] %></p> 
+                         <p>Email: <%= sup['Supplier_email']%></p> 
+                         <p>Ph: <%= sup['Supplier_contact']%></p>
+                      </div>
+                     </label>
+                   <center><input style="border: 0px; width: auto; position: center;" type="radio" id="supplier-<%= sup['Supplier_id']%>" name="supplier_id" value="<%= sup['Supplier_id']%>">
+                   </center>  
+               
+                  
+                </div>
               <% } %>
-            </select>
-            <span>Supplier:</span>
-          </label>
-          <p><span class="error"></span></p>
-          <p><span class="hint">Click here to <a href="/<%=  locals.ctype %>/suppliers/add">add supplier</a></span></p>
-        </div>
-      </div>
-      <div>
-        <div class="field">
-          <button class="button">Submit</button>
-        </div>
-      </div>
+               <center> <button type="submit" class="button">Submit</button> </center>
+    
 		</form>
 	</div>
 </main>
+<script>
+  
+</script>
 <%- include('partials/footer') %>

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { checkLogin } from '../middlewares/auth.js';
 import Order from '../models/order.model.js';
 import Supplier from '../models/supplier.model.js';
+import supplier_inventory from '../models/supplier_inventory.model.js';
 import validator from '../middlewares/validators/order.js';
 import db from '../models/db.js';
 import nodemailer from 'nodemailer';
@@ -30,9 +31,13 @@ router.get(
     const supmap = new Map();
     res.locals.error = req.flash('error');
     res.locals.success = req.flash('success');
+    console.log("displaying suppliers of retailer with id: ", req.user.id);
     for (const sup of suppliers) {
+      console.log(sup);
       supmap.set(sup['Supplier_id'], sup['Supplier_name']);
     }
+    console.log("suppliers: ");
+    console.log(supmap);
     res.render('order.ejs', { pending, completed, cancelled, supmap , ctype: 'retailer'});
   }
 );
@@ -78,6 +83,50 @@ router.post(
   }
 );
 
+router.post('/orders/add/select', checkLogin, async (req, res)=>{
+  console.log("inside req.body", req.body);
+  var id=req.body.supplier_id;
+  console.log("incoming supplier id: ", id);
+  const medicines= await supplier_inventory.findAll(id);
+    console.log("retrieved medicines: ", medicines);
+    res.render('selected_supplier.ejs', {medicines: medicines, ctype: 'retailer' , supplier_id: id});
+
+});
+/* 
+CREATE TABLE IF NOT EXISTS Transactions (
+	transaction_no int PRIMARY KEY,
+	Retailer_id varchar(10),
+	Supplier_id varchar(10),
+	start_date date,
+	end_date date,
+	Order_status enum("COMPLETED","PENDING","CANCELLED"),
+	FOREIGN KEY (Supplier_id)
+	REFERENCES Suppliers(Supplier_id)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+	FOREIGN KEY (Retailer_id)
+	REFERENCES Retailers(Retailer_id)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
+*/
+router.post('/orders/addtocart', checkLogin, async (req, res)=>{
+  console.log("inside req.body", req.body);
+  
+  const transaction = {
+    'Supplier_id': req.body.supplier_id,
+    'Retailer_id': req.user.id,
+     'start_date': new Date(),
+  };
+  await transaction.add(transaction, req.body);
+  console.log("added transaction successfully");
+  console.log(transaction);
+
+  res.redirect('/retailer/staffs');
+  res.send('<h1>items added to cart successfully</h1>');
+
+});
 router.get('/orders/add', checkLogin, async (req, res) => {
   const fields = [
     'supplier',
@@ -91,6 +140,8 @@ router.get('/orders/add', checkLogin, async (req, res) => {
   }
   res.locals.error = req.flash('error');
   const suppliers = await Supplier.findAll(req.user.id);
+  console.log("displaying suppliers of retailer with id: ", req.user.id);
+  console.log(suppliers);
   res.render('order.add.ejs', {suppliers: suppliers, ctype: 'retailer' });
 });
 

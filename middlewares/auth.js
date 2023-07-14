@@ -7,7 +7,7 @@ const checkLogin = (req, res, next) => {
     console.log("user not authenticated");
     req.flash('error', 'Please login to continue');
     req.flash('redirect', encode({ url:req.url }));
-    res.redirect('/auth/login');
+    res.redirect('/');
   }
 };
 
