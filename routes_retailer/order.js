@@ -3,6 +3,8 @@ import { checkLogin } from '../middlewares/auth.js';
 import Order from '../models/order.model.js';
 import Supplier from '../models/supplier.model.js';
 import supplier_inventory from '../models/supplier_inventory.model.js';
+import Transactions from '../models/transaction.js';
+import Transaction_items from '../models/transaction_items.model.js';
 import validator from '../middlewares/validators/order.js';
 import db from '../models/db.js';
 import nodemailer from 'nodemailer';
@@ -24,9 +26,9 @@ router.get(
   '/orders/',
   checkLogin,
   async (req, res) => {
-    const pending = await Order.pending(req.user.id);
-    const completed = await Order.completed(req.user.id);
-    const cancelled = await Order.cancelled(req.user.id);
+    const pending = await Transactions.pending(req.user.id);
+    const completed = await Transactions.completed(req.user.id);
+    const cancelled = await Transactions.cancelled(req.user.id);
     const suppliers = await Supplier.findAll(req.user.id);
     const supmap = new Map();
     res.locals.error = req.flash('error');
@@ -112,19 +114,20 @@ CREATE TABLE IF NOT EXISTS Transactions (
 
 */
 router.post('/orders/addtocart', checkLogin, async (req, res)=>{
+  console.log('request to add to cart');
   console.log("inside req.body", req.body);
-  
-  const transaction = {
-    'Supplier_id': req.body.supplier_id,
-    'Retailer_id': req.user.id,
-     'start_date': new Date(),
-  };
-  await transaction.add(transaction, req.body);
-  console.log("added transaction successfully");
-  console.log(transaction);
+  var rid=req.user.id;
+  var sid=req.body.supplier_id;
+  var items=req.body.items;
 
-  res.redirect('/retailer/staffs');
-  res.send('<h1>items added to cart successfully</h1>');
+ var tno= await Transactions.add(rid, sid);
+
+  for(let item of items) {
+    item['transaction_no']=tno;
+   await Transaction_items.add(item);
+  }
+
+  res.redirect('/retailer/orders');
 
 });
 router.get('/orders/add', checkLogin, async (req, res) => {

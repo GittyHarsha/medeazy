@@ -1,0 +1,113 @@
+<%- include('partials/header'); %>
+<title>Orders</title>
+<script type="text/javascript" src="/js/alerts.js" defer></script>
+<%- include('partials/layout'); %>
+<!-- ======= Breadcrumbs Section ======= -->
+<section class="breadcrumbs">
+  <div class="container">
+
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Orders</h2>
+      <ol>
+        <li><a href="/<%=  locals.ctype %>">Home</a></li>
+        <li>Orders</li>
+      </ol>
+    </div>
+
+  </div>
+</section><!-- End Breadcrumbs Section -->
+<main>
+  <div class="container-flex">
+    <h2>Orders</h2>
+    <%- include('partials/alert') %>
+    <div>
+      <h3>Pending</h3>
+      <% if (pending.length == 0) { %>
+        <p>Empty</p>
+      <% } %>
+      <div class="accordion" id="pendings">
+        <% for (let i = 0; i < pending.length; i++) { const order = pending[i] %>
+          <div class="accordion-item">
+            <p class="accordion-header" tabindex="0">
+              <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pending<%= i %>" aria-expanded="false" aria-controls="#pending<%= i %>" id="heading<%= i %>">Order <%= i + 1 %></button>
+            </p>
+            <div class="accordion-collapse collapse" id="pending<%= i %>" aria-labelledby="heading<%= i %>" data-bs-parent="#pendings">
+              <div class="accordion-body">
+                <ul class="dll">
+                  <li><span>Supplier name: </span><span><%= supmap.get(order['Supplier_id']) %></span></li>
+                  <li><span>Medicine: </span><span><%= order['Medicine_name'] %></span></li>
+                  <li><span>Quantity: </span><span><%= order['Quantity'] %></span></li>
+                  <li><span>Price: </span><span><%= order['MRP'] %></span></li>
+                  <li><span>Order date: </span><span><%= order['Order_date'] %></span></li>
+                </ul>
+                <p class="row">
+                  <a href="/<%=  locals.ctype %>/orders/edit?id=<%= order['Order_id'] %>" class="button small col-4">Edit</a>
+                </p>
+                <p class="row">
+                  <button type="button" class="btn-finish button small col-md-5 col-7" data-oid="<%= order['Order_id'] %>">Complete</button>
+                  <button type="button" class="btn-cancel button small col-md-5 col-7" data-oid="<%= order['Order_id'] %>">Cancel</button>
+                </p>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+    <div>
+      <h3>Completed</h3>
+      <% if (completed.length == 0) { %>
+        <p>Empty</p>
+      <% } %>
+      <div class="accordion" id="cplts">
+        <% for (let i = 0; i < completed.length; i++) { const order = completed[i] %>
+          <div class="accordion-item">
+            <p class="accordion-header" tabindex="0">
+              <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#cplt<%= i %>" aria-expanded="false" aria-controls="#cplt<%= i %>" id="heading<%= i %>">Order <%= i + 1 %></button>
+            </p>
+            <div class="accordion-collapse collapse" id="cplt<%= i %>" aria-labelledby="heading<%= i %>" data-bs-parent="#cplts">
+              <div class="accordion-body">
+                <ul class="dll">
+                  <li><span>Supplier name: </span><span><%= supmap.get(order['Supplier_id']) %></span></li>
+                  <li><span>Medicine: </span><span><%= order['Medicine_name'] %></span></li>
+                  <li><span>Quantity: </span><span><%= order['Quantity'] %></span></li>
+                  <li><span>Price: </span><span><%= order['MRP'] %></span></li>
+                  <li><span>Order date: </span><span><%= order['Order_date'].toDateString() %></span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+    <div>
+      <h3>Cancelled</h3>
+      <% if (cancelled.length == 0) { %>
+        <p class="center">Empty</p>
+      <% } %>
+      <div class="accordion" id="cancels">
+        <% for (let i = 0; i < cancelled.length; i++) { const order = cancelled[i] %>
+          <div class="accordion-item">
+            <p class="accordion-header" tabindex="0">
+              <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#cancel<%= i %>" aria-expanded="false" aria-controls="#cancel<%= i %>" id="heading<%= i %>">Order <%= i + 1 %></button>
+            </p>
+            <div class="accordion-collapse collapse" id="cancel<%= i %>" aria-labelledby="heading<%= i %>" data-bs-parent="#cancels">
+              <div class="accordion-body">
+                <ul class="dll">
+                  <li><span>Supplier name: </span><span><%= supmap.get(order['Supplier_id']) %></span></li>
+                  <li><span>Medicine: </span><span><%= order['Medicine_name'] %></span></li>
+                  <li><span>Quantity: </span><span><%= order['Quantity'] %></span></li>
+                  <li><span>Price: </span><span><%= order['MRP'] %></span></li>
+                  <li><span>Order date: </span><span><%= order['Order_date'].toDateString() %></span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+    <div class="row">
+      <a href="/<%=  locals.ctype %>/orders/add" class="button">Add order</a>
+    </div>
+  </div>
+</main>
+<%- include('partials/footer') %>

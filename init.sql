@@ -16,6 +16,20 @@ CREATE TABLE IF NOT EXISTS Suppliers (
 	Supplier_address varchar(80)
 );
 
+CREATE TABLE IF NOT EXISTS FRIENDS (
+ Supplier_id varchar(10),
+ Retailer_id varchar(10),
+ FOREIGN KEY (Retailer_id)
+	REFERENCES Retailers(Retailer_id)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE,
+	
+	FOREIGN KEY (Supplier_id)
+	REFERENCES Suppliers(Supplier_id)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
 // added supplier column
 
 CREATE TABLE IF NOT EXISTS User_Accounts (

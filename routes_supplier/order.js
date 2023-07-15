@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { checkLogin } from '../middlewares/auth.js';
 import Order from '../models/order.model.js';
+import Transactions from '../models/transaction.js';
 import Supplier from '../models/supplier.model.js';
 import validator from '../middlewares/validators/order.js';
 import db from '../models/db.js';
@@ -23,9 +24,9 @@ router.get(
   '/orders/',
   checkLogin,
   async (req, res) => {
-    const pending = await Order.pending(req.user.id);
-    const completed = await Order.completed(req.user.id);
-    const cancelled = await Order.cancelled(req.user.id);
+    const pending = await Transactions.pending(req.user.id, 'supplier');
+    const completed = await Transactions.completed(req.user.id, 'supplier');
+    const cancelled = await Transactions.cancelled(req.user.id, 'supplier');
     const suppliers = await Supplier.findAll(req.user.id);
     const supmap = new Map();
     res.locals.error = req.flash('error');
@@ -33,7 +34,7 @@ router.get(
     for (const sup of suppliers) {
       supmap.set(sup['Supplier_id'], sup['Supplier_name']);
     }
-    res.render('order.ejs', { pending, completed, cancelled, supmap , ctype: 'supplier'});
+    res.render('supplier_order.ejs', { pending, completed, cancelled, supmap , ctype: 'supplier'});
   }
 );
 

@@ -1,4 +1,7 @@
 <%- include('partials/header'); %>
+<script src="jquery-3.6.4.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
   <title>Add order</title>
 	<link rel="stylesheet" href="/css/forms.css" />
 	<script src="/js/forms.js" defer></script>
@@ -58,11 +61,13 @@ main {
 </section><!-- End Breadcrumbs Section -->
 <main>
     <center>
-    <form action="/<%= locals.ctype%>/orders/addtocart" method="post" style="width: 100%;">
+    <form action="/<%= locals.ctype%>/orders/addtocart" method="post" style="width: 100%" id="form1">
 	<div class="catalog">
         <input type="text" hidden name="supplier_id" value="<%=locals.supplier_id %>">
         <% for(let medicine of medicines) {%>
-            <div class="medicine-card">
+            <div class="medicine-card" id="<%= medicine['Medicine_name']%>">
+              <input type="text" hidden name="name-<%= medicine['Medicine_name']%>" value="<%= medicine['Medicine_name']%>">
+              <input type="text" hidden name="price-<%= medicine['Medicine_name']%>" value="<%= medicine['price']%>">
                 <p>Name: <%= medicine['Medicine_name']%></p>
                 <p>Price: <%= medicine['price']%></p>
                 <div class="field">
@@ -76,10 +81,71 @@ main {
             </div>
         <%}%>
         </div>
-        <button class="button"> Add to cart</button>
+        <button class="button" id="addbutton"> Add to cart</button>
     </div> 
 </form>
 </center>
 </main>
+<script>
+  function parse_form() {
+    var medicines = $(".catalog").find(".medicine-card");
+  var form = $('#form1');
+  var data={};
+
+  var inputs=form.find('input');
+
+  for(input of inputs) {
+    input=jQuery(input);
+
+    if(input.attr('name')=='supplier_id') {
+      data.supplier_id=input.val();
+      break;
+    }
+  }
+
+  data.items=[];
+  for(medicine of medicines) {
+
+    medicine=jQuery(medicine);
+    var inputs=medicine.find('input');
+    var item={};
+
+    for(input of inputs) {
+     
+      input=jQuery(input); console.log(input);
+      if(input.attr('name').includes('name')) {
+        item['Medicine_name']=input.val();
+      }
+      else if(input.attr('name').includes('price')) {
+        item['price']=input.val();
+      }
+      else {
+        item['Quantity']=input.val();
+      }
+    }
+    console.log('item: ', item);
+    data.items.push(item);
+  }
+return data;
+  }
+ 
+$(document).ready(function() {
+  $("#addbutton").click(function(e) {    
+    e.preventDefault();
+    // Get the data from the function.
+    var data = parse_form();
+   
+    console.log(data);
+
+    $.post("/<%= locals.ctype %>/orders/addtocart",data
+    , function(data) {
+      window.location.href="/<%= locals.ctype%>/orders";
+    }
+    );
+  });
+});
+
+
+</script>
 
 <%- include('partials/footer') %>

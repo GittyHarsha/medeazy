@@ -18,11 +18,28 @@ CREATE TABLE IF NOT EXISTS Transaction_items (
 );
 
 */
+
+
+
+const length= async function() {
+  const sql = 'SELECT * FROM Transactions';
+  try {
+    const [rows] = await db.query(sql);
+    return rows;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
 const findAll = async (id, type)=> {
 
-  const sql = 'SELECT * FROM Transactions WHERE Supplier_id = ?';
+  var sql ;
+  if(type=='retailer')
+  sql= 'SELECT * FROM Transactions WHERE Retailer_id = ?';
+  else
+  sql= 'SELECT * FROM Transactions WHERE Supplier_id = ?';
+
   try {
-    const [rows] = await db.query(sql, [sid]);
+    const [rows] = await db.query(sql, id);
     return rows;
   } catch (error) {
     return Promise.reject(error);
@@ -44,7 +61,7 @@ const save = async (sid, name, transaction) => {
   const sql =
   'UPDATE Transactions SET ? WHERE Supplier_id = ? AND Medicine_name = ?';
   try {
-    await db.query(sql, [transactio, sid, name]);
+    await db.query(sql, [transaction, sid, name]);
   } catch (error) {
     return Promise.reject(error);
   }
@@ -79,17 +96,17 @@ CREATE TABLE IF NOT EXISTS Transaction_items (
 */
 
 
-const add = async (transcation, quantity_info)=> {
+const add = async (rid, sid)=> {
 
-    var quantity={};
-    for(key in quantity_info) {
-        if(key.includes("quantity")) {
-    
-            quantity[key.substr(9)]=quantity_info[key];
-        }
-    }
-    const sql = 'INSERT INTO Transcations VALUES ?';
-    const fields = [
+//quantity_info should also contain the prices info . yet to be added
+var sq='select count(*) as cnt from Transactions';
+var promise=await db.query(sq);
+var tno=promise[0][0]['cnt'];
+
+
+
+    const sql = 'INSERT INTO Transactions (transaction_no, Retailer_id, Supplier_id, Start_date, Order_status) VALUES ?';
+    var fields = [
      'transaction_no',
       'Retailer_id',
       'Supplier_id',
@@ -97,23 +114,85 @@ const add = async (transcation, quantity_info)=> {
        'Order_status'
     ];
     try {
-      const rows = await db.query('select * from Transactions');
-      console.log(rows, rows.length);
+
       
-    
-    
-  
-      transaction['transaction_no'] = rows.length+ 1;
+      var transaction={};
+      transaction['Retailer_id']=rid;
+      transaction['Supplier_id']=sid;
+      transaction['Start_date']='2023-12-12';
+      transaction['Order_status']='PENDING';
+      transaction['transaction_no'] = tno;
       await db.query(sql, [[fields.map(col => transaction[col])]]);
+      return tno;
     } catch (error) {
       return Promise.reject(error);
     }
 };
-
+const pending = async (id, type) => {
+  var sql;
+  if(type=='retailer') {
+  sql=`  SELECT * FROM Transactions
+    WHERE Retailer_id = ? AND Order_status = "PENDING"
+  `; }
+  else {
+      sql=`  SELECT * FROM Transactions
+    WHERE Supplier_id = ? AND Order_status = "PENDING"
+  `; 
+  }
+  
+  try {
+    const [rows] = await db.query(sql, [id]);
+    return rows;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+const completed = async (id, type) => {
+  var sql;
+  if(type=='retailer') {
+  sql=`  SELECT * FROM Transactions
+    WHERE Retailer_id = ? AND Order_status = "COMPLETED"
+  `; }
+  else {
+      sql=`  SELECT * FROM Transactions
+    WHERE Supplier_id = ? AND Order_status = "COMPLETED"
+  `; 
+  }
+  
+  try {
+    const [rows] = await db.query(sql, [id]);
+    return rows;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+const cancelled = async (id, type) => {
+  var sql;
+  if(type=='retailer') {
+  sql=`  SELECT * FROM Transactions
+    WHERE Retailer_id = ? AND Order_status = "CANCELLED"
+  `; }
+  else {
+      sql=`  SELECT * FROM Transactions
+    WHERE Supplier_id = ? AND Order_status = "CANCELLED"
+  `; 
+  }
+  
+  try {
+    const [rows] = await db.query(sql, [id]);
+    return rows;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
 export default {
+  length,
   findAll,
   find,
   save,
   del,
-  add
+  add,
+  pending,
+  cancelled, 
+  completed
 };
