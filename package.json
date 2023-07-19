@@ -15,8 +15,10 @@
   "license": "UNLICENSED",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "clear": "^0.1.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
+    "crypto": "^1.0.1",
     "ejs": "^3.1.6",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
@@ -26,6 +28,8 @@
     "nodemon": "^2.0.22",
     "passport": "^0.5.2",
     "passport-custom": "^1.1.1",
+    "passport-google-oauth": "^2.0.0",
+    "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {

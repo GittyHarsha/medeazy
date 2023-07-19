@@ -227,6 +227,7 @@ const saveHintq = async (id, obj, type) => {
   }
 };
 
+
 export default {
   verifyPassword,
   verifyById,

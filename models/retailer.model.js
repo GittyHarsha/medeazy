@@ -54,6 +54,8 @@ const save = async (rid, ret) => {
   }
 };
 
+
+
 const add = async ret => {
   const sql = 'INSERT INTO Retailers VALUES ?';
   const fields = [
@@ -85,10 +87,17 @@ const del = async rid => {
   await db.query(sql, [rid]);
 };
 
+const find_email = async(email)=> {
+  const sql="SELECT * FROM Retailers where Retailer_email=?";
+  const [rows]=await db.query(sql, email);
+  return rows[0]['Retailer_id'];
+};
+
 export default {
   find,
   findAll,
   save,
   add,
-  del
+  del,
+  find_email
 };

@@ -5,7 +5,7 @@ import flash from 'connect-flash';
 import passport from './middlewares/passport.js';
 import router_retailer from './routes_retailer/index.js';
 import router_supplier from './routes_supplier/index.js';
-import { PORT, SECRET } from './config.js';
+import { PORT, SECRET } from './config/config.js';
 
 const app = express();
 
@@ -26,6 +26,7 @@ app.use(session({
 }));
 app.use(flash());
 app.use(passport.initialize());
+
 app.use(passport.session());
 app.use(express.static('./public'));
 
@@ -48,8 +49,7 @@ app.all('/retailer', (req, res)=>{
 
 function put_type(req, res, next) {
 var url=req.url;
-console.log("inside put_type");
-console.log("url: ", req.url);
+
 if(url.includes("supplier")) {
   req.body.customer_type='supplier';
 }
@@ -59,6 +59,10 @@ else {
 next();
 }
 app.use('/', put_type);
+
+app.get('/supplier/auth/google', passport.authenticate('supplierStrategy', {scope: ['profile', 'email']}));
+app.get('/retailer/auth/google', passport.authenticate('retailerStrategy', {scope: ['profile', 'email']}));
+
 app.use('/retailer',  router_retailer);
 app.use('/supplier', router_supplier);
 // url not found

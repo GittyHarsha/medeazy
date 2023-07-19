@@ -20,6 +20,11 @@ import {
 } from '../controllers/auth.js';
 const router = Router();
 
+router.get('/auth/google/callback', passport.authenticate('retailerStrategy'), (req, res)=>{ console.log("after callback, inside req.user, req.body: ", req.user, req.body);res.send('<h1>U are trying to enter my zone. backoff!</h1>')});
+
+
+
+
 router.get('/auth/', (req, res) => {
   res.redirect('/retailer/auth/login');
 });

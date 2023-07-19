@@ -23,6 +23,7 @@ router.use(supplier);
 router.use(inventory);
 router.use(order);
 router.use(retailer);
+
 router.get('/500', (req, res, next) => {
   next({ code: 500, desc: 'Internal server error' });
 });

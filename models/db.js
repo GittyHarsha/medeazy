@@ -1,5 +1,5 @@
 import mysql from 'mysql2';
-import { DB } from '../config.js';
+import { DB } from '../config/config.js';
 
 const pool  = mysql.createPool({
   host : DB.host, // The hostname of the database you are connecting to.
