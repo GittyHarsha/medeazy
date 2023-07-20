@@ -87,11 +87,25 @@ const del = async rid => {
   await db.query(sql, [rid]);
 };
 
-const find_email = async(email)=> {
-  const sql="SELECT * FROM Retailers where Retailer_email=?";
+const find_id = async (email)=> {
+  const sql='SELECT * FROM Retailers WHERE Retailer_email = ?';
   const [rows]=await db.query(sql, email);
-  return rows[0]['Retailer_id'];
+  console.log("here are the rows of find_id: ", rows);
+
+  if(rows.length==0) {
+    return null;
+  }
+ return rows[0]['Retailer_id'];
 };
+const find_name = async (id)=> {
+  const sql='SELECT * FROM Retailers WHERE Retailer_id= ?';
+  const [rows]=await db.query(sql, id);
+  console.log("here are the rows of find_name: ", rows);
+
+ return rows[0]['Retailer_name'];
+};
+
+
 
 export default {
   find,
@@ -99,5 +113,6 @@ export default {
   save,
   add,
   del,
-  find_email
+  find_id,
+  find_name
 };

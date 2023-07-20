@@ -2,6 +2,13 @@
 <title>Orders</title>
 <script type="text/javascript" src="/js/alerts.js" defer></script>
 <%- include('partials/layout'); %>
+<style>
+  table {
+  column-gap: 10px;
+  column-width: 50px;
+  width: 600px;
+}
+</style>
 <!-- ======= Breadcrumbs Section ======= -->
 <section class="breadcrumbs">
   <div class="container">
@@ -27,25 +34,33 @@
       <% } %>
       <div class="accordion" id="pendings">
         <% for (let i = 0; i < pending.length; i++) { const order = pending[i] %>
-          <div class="accordion-item">
+          <div class="accordion-item" style="width: 30vw;">
             <p class="accordion-header" tabindex="0">
               <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pending<%= i %>" aria-expanded="false" aria-controls="#pending<%= i %>" id="heading<%= i %>">Order <%= i + 1 %></button>
             </p>
             <div class="accordion-collapse collapse" id="pending<%= i %>" aria-labelledby="heading<%= i %>" data-bs-parent="#pendings">
-              <div class="accordion-body">
+              <div class="accordion-body" style="width: auto;">
                 <ul class="dll">
-                  <li><span>Supplier name: </span><span><%= supmap.get(order['Supplier_id']) %></span></li>
-                  <li><span>Medicine: </span><span><%= order['Medicine_name'] %></span></li>
-                  <li><span>Quantity: </span><span><%= order['Quantity'] %></span></li>
-                  <li><span>Price: </span><span><%= order['MRP'] %></span></li>
-                  <li><span>Order date: </span><span><%= order['Order_date'] %></span></li>
+                  <li><span>Retailer id: </span><span><%= order['Retailer_id']%></span></li>
+                  <table>
+                    <tr>
+                      <td>Medicine Name</td> <td>Quantity</td> <td>Price</td> <td>Order_date</td>
+                    </tr>
+                  <% for(var items of order.items) { %>
+                      <tr>
+                        <td><%=items['Medicine_name']%></td>
+                        <td><%=items['Quantity']%></td>
+                        <td><%=items['price']%></td>
+                        <td><%=items['Order_date'].toDateString()%></td>
+                      </tr>
+
+                <%  } %>
+                  </table>
                 </ul>
+                
                 <p class="row">
-                  <a href="/<%=  locals.ctype %>/orders/edit?id=<%= order['Order_id'] %>" class="button small col-4">Edit</a>
-                </p>
-                <p class="row">
-                  <button type="button" class="btn-finish button small col-md-5 col-7" data-oid="<%= order['Order_id'] %>">Complete</button>
-                  <button type="button" class="btn-cancel button small col-md-5 col-7" data-oid="<%= order['Order_id'] %>">Cancel</button>
+                  <a type="button" href="/supplier/orders/complete?tno=<%=order['transaction_no']%>" class="btn-finish button small col-md-5 col-7" data-oid="<%= order['transaction_no'] %>">Complete</a>
+                  <a type="button" class="btn-cancel button small col-md-5 col-7" data-oid="<%= order['transaction_no'] %>">Cancel</a>
                 </p>
               </div>
             </div>
@@ -67,11 +82,21 @@
             <div class="accordion-collapse collapse" id="cplt<%= i %>" aria-labelledby="heading<%= i %>" data-bs-parent="#cplts">
               <div class="accordion-body">
                 <ul class="dll">
-                  <li><span>Supplier name: </span><span><%= supmap.get(order['Supplier_id']) %></span></li>
-                  <li><span>Medicine: </span><span><%= order['Medicine_name'] %></span></li>
-                  <li><span>Quantity: </span><span><%= order['Quantity'] %></span></li>
-                  <li><span>Price: </span><span><%= order['MRP'] %></span></li>
-                  <li><span>Order date: </span><span><%= order['Order_date'].toDateString() %></span></li>
+                  <li><span>Retailer id: </span><span><%= order['Retailer_id']%></span></li>
+                  <table>
+                    <tr>
+                      <td>Medicine Name</td> <td>Quantity</td> <td>Price</td> <td>Order_date</td>
+                    </tr>
+                  <% for(var items of order.items) { %>
+                      <tr>
+                        <td><%=items['Medicine_name']%></td>
+                        <td><%=items['Quantity']%></td>
+                        <td><%=items['price']%></td>
+                        <td><%=items['Order_date'].toDateString()%></td>
+                      </tr>
+
+                <%  } %>
+                  </table>
                 </ul>
               </div>
             </div>
@@ -93,11 +118,21 @@
             <div class="accordion-collapse collapse" id="cancel<%= i %>" aria-labelledby="heading<%= i %>" data-bs-parent="#cancels">
               <div class="accordion-body">
                 <ul class="dll">
-                  <li><span>Supplier name: </span><span><%= supmap.get(order['Supplier_id']) %></span></li>
-                  <li><span>Medicine: </span><span><%= order['Medicine_name'] %></span></li>
-                  <li><span>Quantity: </span><span><%= order['Quantity'] %></span></li>
-                  <li><span>Price: </span><span><%= order['MRP'] %></span></li>
-                  <li><span>Order date: </span><span><%= order['Order_date'].toDateString() %></span></li>
+                  <li><span>Retailer id: </span><span><%= order['Retailer_id']%></span></li>
+                  <table>
+                    <tr>
+                      <td>Medicine Name</td> <td>Quantity</td> <td>Price</td> <td>Order_date</td>
+                    </tr>
+                  <% for(var items of order.items) { %>
+                      <tr>
+                        <td><%=items['Medicine_name']%></td>
+                        <td><%=items['Quantity']%></td>
+                        <td><%=items['price']%></td>
+                        <td><%=items['Order_date'].toDateString()%></td>
+                      </tr>
+
+                <%  } %>
+                  </table>
                 </ul>
               </div>
             </div>

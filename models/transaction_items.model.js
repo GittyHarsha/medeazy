@@ -30,11 +30,11 @@ const length= async function() {
     return Promise.reject(error);
   }
 }
-const findAll = async (id, type)=> {
+const findAll = async (tno)=> {
 
-  const sql = 'SELECT * FROM Transactions_items WHERE Supplier_id = ?';
+  const sql = 'SELECT * FROM Transaction_items WHERE transaction_no = ?';
   try {
-    const [rows] = await db.query(sql, [sid]);
+    const [rows] = await db.query(sql, [tno]);
     return rows;
   } catch (error) {
     return Promise.reject(error);

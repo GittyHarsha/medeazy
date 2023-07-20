@@ -1,8 +1,8 @@
 import passport from 'passport';
 
 import User from '../models/user.model.js';
-//import Retailer from '../models/retailer.model.js';
-//import Suppler from '../models/supplier.model.js';
+import Retailer from '../models/retailer.model.js';
+import Supplier from '../models/supplier.model.js';
 
 
 
@@ -18,6 +18,7 @@ passport.use('custom', new CustomStrategy(
     var customer_type=req.body.customer_type;
     console.log("customer type: ", customer_type);
     User.verifyPassword(username, password, customer_type).then(user => {
+      console.log("user by logging through custom : ", user);
       if (!user) {
         console.log("invalid username or password");
         return done(null, false, { message: 'Invalid username or password' });
@@ -73,12 +74,29 @@ passport.use('retailerStrategy',new googleStrategy(
   clientSecret: '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',
   callbackURL: 'http://localhost:8080/retailer/auth/google/callback'
   },
-  function(accessToken, refreshToken, profile, done) {
+ async function(accessToken, refreshToken, profile, done) {
 
-      //const email=profile._json.email;
-      //const rid=Retailer.find_email(email);
+    console.log("profile: ", profile);
+      const email=profile._json.email;
+      var rid=await Retailer.find_id(email);
+      
+      if(!rid) {
+        var ret={
+          'Retailer_name':profile._json.name,
+          'Retailer_email':email,
+          'Retailer_address':'',
+          'Retailer_contact':''
+        };
+        rid = await Retailer.add(ret);
+  
+      }
+      console.log("inside oauth retailer strategy, found id: ", rid);
+      const name=await Retailer.find_name(rid);
+      console.log("inside oauth retailer strategy, found id: ", rid);
+     const user={name: name, email: email, id: rid};
 
-      done(null, profile);
+
+      done(null, user);
   }
 ));
 passport.use('supplierStrategy', new googleStrategy(
@@ -87,11 +105,24 @@ passport.use('supplierStrategy', new googleStrategy(
   clientSecret: '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',
   callbackURL: 'http://localhost:8080/supplier/auth/google/callback'
   },
-  function(accessToken, refreshToken, profile, done) {
-      const user={
-          email: accessToken.email,
-          name: accessToken.name
-      };
+  async function(accessToken, refreshToken, profile, done) {
+    const email=profile._json.email;
+    
+      const sid=Supplier.find_email(email);
+      if(!sid) {
+        var sup={
+          'Supplier_name':profile._json.name,
+          'Supplier_email':email,
+          'Supplier_address':'',
+          'Supplier_contact':''
+        };
+        sid = await Supplier.add(sup);
+  
+      }
+      const name=Supplier.find_name(sid);
+      
+     const user={name: name, email: email, id: sid};
+
       done(null, user);
   }
 ));

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { checkLogin } from '../middlewares/auth.js';
 import Order from '../models/order.model.js';
 import Transactions from '../models/transaction.js';
+import Transaction_items from '../models/transaction_items.model.js';
 import Supplier from '../models/supplier.model.js';
 import validator from '../middlewares/validators/order.js';
 import db from '../models/db.js';
@@ -20,20 +21,56 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+
+
+async function fetch_items(transactions) {
+  var transaction_items=[];
+  for(var transaction of transactions) {
+    var transaction_item={};
+    var medicines= await Transaction_items.findAll(transaction['transaction_no']);
+    transaction_item['Supplier_id']=transaction['Supplier_id'];
+    transaction_item['Retailer_id']=transaction['Retailer_id'];
+    transaction_item['transaction_no']=transaction['transaction_no'];
+    transaction_item['items']=[];
+    for(var medicine of medicines) {
+      var item={};
+      item['Order_date']=transaction['start_date'];
+      item['Medicine_name']=medicine['Medicine_name'];
+      item['Quantity']=medicine['Quantity'];
+      
+      item['price']=medicine['price'];
+      transaction_item.items.push(item);
+    }
+    transaction_items.push(transaction_item);
+}
+return transaction_items;
+}
+
+
+router.get('/orders/complete', async (req, res) => {
+console.log("request came to complete order with tno: ", req.query.tno);
+await Transactions.complete(req.query.tno);
+res.redirect('/supplier/orders');
+});
+
 router.get(
   '/orders/',
   checkLogin,
   async (req, res) => {
-    const pending = await Transactions.pending(req.user.id, 'supplier');
-    const completed = await Transactions.completed(req.user.id, 'supplier');
-    const cancelled = await Transactions.cancelled(req.user.id, 'supplier');
-    const suppliers = await Supplier.findAll(req.user.id);
+    const pending_transactions = await Transactions.pending(req.user.id, 'supplier');
+    var pending= await fetch_items(pending_transactions);
+   
+    const completed_transactions = await Transactions.completed(req.user.id, 'supplier');
+    var completed=await fetch_items(completed_transactions);
+   
+    const cancelled_transactions = await Transactions.cancelled(req.user.id, 'supplier');
+    var cancelled=fetch_items(cancelled_transactions);
+    
+
     const supmap = new Map();
     res.locals.error = req.flash('error');
     res.locals.success = req.flash('success');
-    for (const sup of suppliers) {
-      supmap.set(sup['Supplier_id'], sup['Supplier_name']);
-    }
+   
     res.render('supplier_order.ejs', { pending, completed, cancelled, supmap , ctype: 'supplier'});
   }
 );

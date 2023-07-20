@@ -185,6 +185,24 @@ const cancelled = async (id, type) => {
     return Promise.reject(error);
   }
 };
+const complete = async (tno) => {
+  var sql="UPDATE Transactions SET Order_Status='COMPLETED' WHERE transaction_no= ?";  
+  try {
+    const [rows] = await db.query(sql, [tno]);
+    return rows;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+const cancel = async (tno) => {
+  var sql="UPDATE Transactions SET Order_Status='CANCELLED' WHERE transaction_no= ?";  
+  try {
+    const [rows] = await db.query(sql, [tno]);
+    return rows;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
 export default {
   length,
   findAll,
@@ -194,5 +212,7 @@ export default {
   add,
   pending,
   cancelled, 
-  completed
+  completed,
+  complete,
+  cancel
 };

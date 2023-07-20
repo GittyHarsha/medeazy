@@ -22,9 +22,7 @@ const router = Router();
 
 
 
-router.get('/auth/google/callback', (req, res)=> { console.log("logged in using google oauth successfully");
-res.render('index')});
-
+router.get('/auth/google/callback', (req, res)=> { res.redirect('/supplier/dashboard')});
 
 router.get('/auth/', (req, res) => {
   res.redirect('/supplier/auth/login');

@@ -69,11 +69,21 @@ const add = async supplier => {
     return Promise.reject(error);
   }
 };
-const find_email = async(email)=> {
-  const sql="SELECT * FROM Retailers where Retailer_email=?";
+const find_id = async(email)=> {
+  const sql="SELECT * FROM Retailers where Supplier_email=?";
   const [rows]=await db.query(sql, email);
-  return rows[0]['Retailer_id'];
+  return rows[0]['Supplier_id'];
 };
+const find_name = async(id)=> {
+  const sql="SELECT * FROM Retailers where Supplier_id?";
+  const [rows]=await db.query(sql, id);
+  console.log("here are the rows of find_email: ", rows);
+  if(rows.length==0) {
+    return null;
+  }
+ return rows[0]['Supplier_name'];
+};
+
 
 export default {
   findAll,
@@ -81,5 +91,6 @@ export default {
   save,
   del,
   add,
-  find_email
+  find_id,
+  find_name
 };
