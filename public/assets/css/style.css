@@ -93,6 +93,25 @@ h1, h2, h3, h4, h5, h6 {
   color: #fff;
   line-height: 0;
 }
+  .custom-button {
+    background-color: #4CAF50; /* Green background color */
+    border: none; /* Remove default button border */
+    color: white; /* Text color */
+    padding: 10px 20px; /* Add some padding around the text */
+    text-align: center; /* Center the text horizontally */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Set display property to inline-block */
+    font-size: 16px; /* Font size */
+    border-radius: 4px; /* Add some rounded corners */
+    cursor: pointer; /* Change the cursor to a pointer on hover */
+  }
+
+  /* Style for the button on hover */
+  .custom-button:hover {
+    background-color: #45a049;
+  }
+
+
 .back-to-top:hover {
   background: #2c4964;
   color: #fff;

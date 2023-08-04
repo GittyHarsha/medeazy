@@ -18,6 +18,7 @@
   </div>
 </section><!-- End Breadcrumbs Section -->
 <main>
+  <% if(ctype=="retailer") {%>
 	<div class="form-container">
     <form action="/retailer/profile/edit" method="post">
 			<div>
@@ -66,5 +67,56 @@
       </div>
 		</form>
 	</div>
+  <%} else {%>
+    <div class="form-container">
+      <form action="/retailer/profile/edit" method="post">
+        <div>
+          <h2 class="center"><%= ret['Supplier_name'] %></h2>
+        </div>
+        <%- include('partials/alert') %>
+        <div>
+          <div class="field">
+            <label>
+              <input type="text" name="name" placeholder="Supplier name" maxlength="40" value="<%= ret['Supplier_name'] %>" readonly />
+              <span>Supplier name:</span>
+            </label>
+            <p><span class="error"></span><span class="counter hidden"></span></p>
+            <p><span class="hint"></span></p>
+          </div>
+        </div>
+        <div>
+          <div class="field">
+            <label>
+              <input type="text" name="contact" placeholder="Supplier contact" maxlength="40" value="<%= ret['Supplier_contact'] %>" readonly />
+              <span>Retailer contact:</span>
+            </label>
+            <p><span class="error"></span><span class="counter hidden"></span></p>
+            <p><span class="hint"></span></p>
+          </div>
+        </div>
+        <div>
+          <div class="field">
+            <label>
+              <input type="text" name="email" placeholder="Supplier email" maxlength="40" value="<%= ret['Supplier_email'] %>" readonly />
+              <span>Retailer email:</span>
+            </label>
+            <p><span class="error"></span><span class="counter hidden"></span></p>
+            <p><span class="hint"></span></p>
+          </div>
+        </div>
+        <div>
+          <div class="field">
+            <label>
+              <input type="text" name="address" placeholder="Supplier address" maxlength="40" value="<%= ret['Supplier_address'] %>" readonly />
+              <span>Retailer address:</span>
+            </label>
+            <p><span class="error"></span><span class="counter hidden"></span></p>
+            <p><span class="hint"></span></p>
+          </div>
+        </div>
+      </form>
+    </div>
+    <%}%>
+  
 </main>
 <%- include('partials/footer') %>

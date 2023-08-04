@@ -1,5 +1,5 @@
 import db from './db.js';
-/* 
+/*
  TABLE: Transactions
 	transaction_no 
 	Retailer_id 

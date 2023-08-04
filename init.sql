@@ -23,14 +23,14 @@ CREATE TABLE IF NOT EXISTS FRIENDS (
 	REFERENCES Retailers(Retailer_id)
 	ON DELETE CASCADE
 	ON UPDATE CASCADE,
-	
-	FOREIGN KEY (Supplier_id)
+
+FOREIGN KEY (Supplier_id)
 	REFERENCES Suppliers(Supplier_id)
 	ON DELETE CASCADE
 	ON UPDATE CASCADE
 );
 
-// added supplier column
+
 
 CREATE TABLE IF NOT EXISTS User_Accounts (
 	User_id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -164,5 +164,5 @@ CREATE TABLE IF NOT EXISTS Supplier_Staffs (
 	ON UPDATE CASCADE
 );
 
---CREATE USER 'project'@'localhost' IDENTIFIED BY 'har123Kir456@';
---GRANT SELECT, INSERT, UPDATE, DELETE ON medstore.* TO 'project'@'localhost';
+-- CREATE USER 'project'@'localhost' IDENTIFIED BY 'har123Kir456@';
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON medstore.* TO 'project'@'localhost';

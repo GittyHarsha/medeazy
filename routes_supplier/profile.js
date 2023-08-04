@@ -6,7 +6,8 @@ const router = Router();
 
 const fields = ['name', 'contact', 'email', 'address'];
 router.get('/profile', async (req, res, next) => {
-  const ret = await Supplier.find(req.query.id);
+  console.log("request for supplier profile , req: ", req.user);
+  const ret = await Supplier.find(req.user.id);
   if (ret) {
     res.render('profile.ejs', { ret, ctype: 'supplier' });
   } else {

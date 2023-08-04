@@ -31,7 +31,27 @@
   <link href="/css/style.css" rel="stylesheet">
 
 </head>
+<style>
 
+.custom-button {
+    background-color: #4CAF50; /* Green background color */
+    border: none; /* Remove default button border */
+    color: white; /* Text color */
+    padding: 10px 20px; /* Add some padding around the text */
+    text-align: center; /* Center the text horizontally */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Set display property to inline-block */
+    font-size: 16px; /* Font size */
+    border-radius: 4px; /* Add some rounded corners */
+    cursor: pointer; /* Change the cursor to a pointer on hover */
+  }
+
+  /* Style for the button on hover */
+  .custom-button:hover {
+    background-color: #45a049;
+  }
+
+</style>
 <body>
 
   <!-- ======= Top Bar ======= -->
@@ -52,15 +72,20 @@
     <div class="container">
       <h1>Welcome to MedEazy</h1>
       <h2>Centralized medical store Management</h2>
-     <form action="./supplier"><button>Supplier</button> </form>
-     <form action="./retailer"><button>Retailer</button> </form>
+     
+      
+      
     </div>
   </section><!-- End Hero -->
 
-  
-
+ 
   <!-- ======= Footer ======= -->
   <footer id="footer">
+    <center> <div style="display: flex; justify-content: space-between; width: 20%;">
+      <form style="display: inline-block;" action="./supplier"><button style="background-color: #dc3545;" class="custom-button">Supplier</button> </form>
+      <form style="display: inline-block;" action="./retailer"><button style="background-color: #dc3545;" class="custom-button">Retailer</button> </form>
+    </div></center>
+  
 
     <div class="footer-top">
       <div class="container">

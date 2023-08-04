@@ -89,19 +89,18 @@ const del = async rid => {
 
 const find_id = async (email)=> {
   const sql='SELECT * FROM Retailers WHERE Retailer_email = ?';
-  const [rows]=await db.query(sql, email);
+  const [rows]=await db.query(sql,email);
   console.log("here are the rows of find_id: ", rows);
-
+  
   if(rows.length==0) {
     return null;
   }
  return rows[0]['Retailer_id'];
 };
-const find_name = async (id)=> {
+const find_name = async (id)=>{
   const sql='SELECT * FROM Retailers WHERE Retailer_id= ?';
   const [rows]=await db.query(sql, id);
   console.log("here are the rows of find_name: ", rows);
-
  return rows[0]['Retailer_name'];
 };
 

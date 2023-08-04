@@ -10,7 +10,7 @@ const forgotControllerPOST = async (req, res) => {
   const { password } = req.body;
   const yes = await User.verifyAnswer(id, answer, ctype);
   if (!yes) {
-    req.flash('error', 'Invalid answer');
+    req.flash('error','Invalid answer');
     res.redirect('/auth/login#forgot');
   } else {
     await User.changePassword(password, id, ctype);
@@ -65,8 +65,8 @@ const changePasswordPOST = async (req, res, next) => {
     res.redirect('/auth/change');
     return;
   }
-  await User.changePassword(password, id, ctype);
-  req.flash('success', 'Password changed successfully');
+  await User.changePassword(password,id, ctype);
+  req.flash('success','Password changed successfully');
   res.redirect('/profile/edit');
 };
 /* 
